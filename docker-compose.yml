@@ -1,0 +1,16 @@
+version: '3'
+services:
+  database:
+    build: ./BudgetTracker.DB
+    container_name: budgettracker_db
+    restart: always
+    ports:
+      - 3306:3306
+  webapi:
+    build: ./BudgetTracker.API
+    container_name: budgettracker_api
+    restart: always
+    ports:
+      - 80:80
+    depends_on:
+      - database
