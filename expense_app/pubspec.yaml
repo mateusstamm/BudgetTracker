@@ -42,6 +42,7 @@ dependencies:
   intl: ^0.17.0
   fl_chart: ^0.55.2
   http: ^0.13.3
+  fluttertoast: ^8.0.8
 
 dev_dependencies:
   flutter_test:

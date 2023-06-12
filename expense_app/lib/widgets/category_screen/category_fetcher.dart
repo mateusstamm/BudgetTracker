@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import '../../models/database_provider.dart';
 import './total_chart.dart';
 import './category_list.dart';
-import '../../screens/all_expenses.dart';
+import '../../screens/expenses/all_expenses.dart';
 
 class CategoryFetcher extends StatefulWidget {
   const CategoryFetcher({super.key});

@@ -1,13 +1,13 @@
 import 'package:expense_app/screens/home_screen.dart';
-import 'package:expense_app/screens/login_screen.dart';
-import 'package:expense_app/screens/register_screen.dart';
+import 'package:expense_app/screens/login/login_screen.dart';
+import 'package:expense_app/screens/register/register_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import './models/database_provider.dart';
 // screens
-import './screens/category_screen.dart';
-import './screens/expense_screen.dart';
-import './screens/all_expenses.dart';
+import 'screens/categories/category_screen.dart';
+import 'screens/expenses/expense_screen.dart';
+import 'screens/expenses/all_expenses.dart';
 
 void main() {
   runApp(ChangeNotifierProvider(
@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
         LoginScreen.name: (_) => const LoginScreen(),
         HomeScreen.name: (_) => const HomeScreen(),
         CategoryScreen.name: (_) => const CategoryScreen(),
-        ExpenseScreen.name: (_) => const ExpenseScreen(),
+        ExpensesScreen.name: (_) => const ExpensesScreen(),
         AllExpenses.name: (_) => const AllExpenses(),
       },
     );

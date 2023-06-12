@@ -1,0 +1,29 @@
+import 'package:flutter/material.dart';
+import '../../widgets/drawer_default.dart';
+import '../../widgets/expense_screen/expense_category_list.dart';
+
+class ExpenseScreen extends StatelessWidget {
+  const ExpenseScreen({Key? key}) : super(key: key);
+  static const String name = '/expense_screen'; // for routes
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Despesas'),
+      ),
+      drawer: DrawerDefault(),
+      body: ExpenseCategoryList(),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          /*showModalBottomSheet(
+            context: context,
+            isScrollControlled: true,
+            builder: (_) => ExpenseForm(),
+          );*/
+        },
+        child: const Icon(Icons.add),
+      ),
+    );
+  }
+}

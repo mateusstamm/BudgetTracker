@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import '../screens/category_screen.dart';
-import '../screens/expense_screen.dart';
+import '../screens/categories/category_screen.dart';
+import '../screens/expenses/expense_screen.dart';
 import '../screens/home_screen.dart';
-import '../screens/login_screen.dart';
+import '../screens/login/login_screen.dart';
 
 class DrawerDefault extends StatelessWidget {
   const DrawerDefault({super.key});
@@ -40,7 +40,7 @@ class DrawerDefault extends StatelessWidget {
             onTap: () {
               Navigator.pushNamedAndRemoveUntil(
                 context,
-                ExpenseScreen.name,
+                ExpensesScreen.name,
                 (route) => false,
               );
             },

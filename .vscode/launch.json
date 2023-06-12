@@ -29,7 +29,7 @@
         {
             "name": "Flutter (Pixel_3a_API_33_x86_64)",
             "program": "lib/main.dart",
-            "cwd": "expense_app",
+            "cwd": "budget_tracker",
             "deviceId": "emulator-5554",
             "request": "launch",
             "type": "dart"

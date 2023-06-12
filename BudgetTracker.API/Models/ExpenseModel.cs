@@ -1,6 +1,5 @@
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BudgetTracker.API.Models
 {
@@ -10,7 +9,8 @@ namespace BudgetTracker.API.Models
         public int ExpenseID { get; set; }
 
         [Required(ErrorMessage = "O campo Título é obrigatório.")]
-        public string ?Title { get; set; }
+        public string? Title { get; set; }
+        public string? Description { get; set; }
 
         [Required(ErrorMessage = "O campo Valor é obrigatório.")]
         [Range(0, double.MaxValue, ErrorMessage = "O valor deve ser maior que zero.")]
@@ -19,7 +19,9 @@ namespace BudgetTracker.API.Models
         [Required(ErrorMessage = "O campo Data é obrigatório.")]
         public DateTime Date { get; set; }
 
-        [Required(ErrorMessage = "O campo Categoria é obrigatório.")]
-        public string ?Category { get; set; }
+        [ForeignKey("CategoryID")]
+        public int CategoryID { get; set; } // Chave estrangeira
+
+        public CategoryModel? Category { get; set; } // Propriedade de navegação
     }
 }

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../../models/ex_category.dart';
-import '../../screens/expense_screen.dart';
+import '../../screens/expenses/expense_screen.dart';
 
 class CategoryCard extends StatelessWidget {
   final ExpenseCategory category;
@@ -12,8 +12,8 @@ class CategoryCard extends StatelessWidget {
     return ListTile(
       onTap: () {
         Navigator.of(context).pushNamed(
-          ExpenseScreen.name,
-          arguments: category.title, // for expensescreen.
+          ExpensesScreen.name,
+          arguments: category.title, // for ExpensesScreen.
         );
       },
       leading: Padding(

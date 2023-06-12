@@ -7,8 +7,8 @@ public class AppDbContext : DbContext
 {
     // Defina suas entidades como DbSet
     public DbSet<UserModel>? Users { get; set; }
+    public DbSet<CategoryModel>? Categories { get; set; }
     public DbSet<ExpenseModel>? Expenses { get; set; }
-//    public DbSet<CategoryModel>? Category { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {

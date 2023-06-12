@@ -2,6 +2,7 @@ using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using BudgetTracker.API.DTO;
 using BudgetTracker.API.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace BudgetTracker.API.Controllers
 {
@@ -19,39 +20,96 @@ namespace BudgetTracker.API.Controllers
         [HttpGet]
         public IActionResult GetAllExpenses()
         {
-            var expenses = _context.Expenses!.ToList();
-            return Ok(expenses);
+            var expenses = _context.Expenses!
+                .Include(e => e.Category) // Inclua a propriedade de navegação 'Category' no resultado da consulta
+                .ToList();
+
+            var expenseDTOs = expenses.Select(e => new ExpenseDTO
+            {
+                ExpenseID = e.ExpenseID,
+                Title = e.Title,
+                Description = e.Description,
+                Amount = e.Amount,
+                Date = e.Date,
+                Category = new CategoryDTO
+                {
+                    CategoryID = e.Category!.CategoryID,
+                    Title = e.Category?.Title,
+                    Description = e.Category?.Description,
+                    TotalAmount = e.Category!.TotalAmount,
+                    Icon = e.Category.Icon
+                }
+            }).ToList();
+
+            return Ok(expenseDTOs);
         }
+
+
+        [HttpGet("{id}")]
+public IActionResult GetExpenseById(int id)
+{
+    var expense = _context.Expenses!
+        .Include(e => e.Category)
+        .FirstOrDefault(e => e.ExpenseID == id);
+
+    if (expense == null)
+    {
+        return NotFound("Despesa não encontrada.");
+    }
+
+    var expenseDTO = new ExpenseDTO
+    {
+        ExpenseID = expense.ExpenseID,
+        Title = expense.Title,
+        Description = expense.Description,
+        Amount = expense.Amount,
+        Date = expense.Date,
+        Category = expense.Category != null ? new CategoryDTO
+        {
+            CategoryID = expense.Category.CategoryID,
+            Title = expense.Category.Title,
+            Description = expense.Category.Description,
+            TotalAmount = expense.Category.TotalAmount,
+            Icon = expense.Category.Icon
+        } : null
+    };
+
+    return Ok(expenseDTO);
+}
+
 
         [HttpPost]
         public IActionResult AddExpense(ExpenseDTO expenseDTO)
         {
+            var category = _context.Categories!.Find(expenseDTO.Category!.CategoryID);
+
+            if (category == null)
+            {
+                return BadRequest("Categoria inválida.");
+            }
+
             var newExpense = new ExpenseModel
             {
                 Title = expenseDTO.Title,
+                Description = expenseDTO.Description,
                 Amount = expenseDTO.Amount,
                 Date = expenseDTO.Date,
-                Category = expenseDTO.Category
+                Category = category
             };
 
             _context.Expenses!.Add(newExpense);
+
+            // Atualizar o totalAmount da categoria
+            category.TotalAmount += expenseDTO.Amount;
+
             _context.SaveChanges();
 
-            return CreatedAtAction(nameof(GetExpenseById), new { id = newExpense.ExpenseID }, newExpense);
+            expenseDTO.ExpenseID = newExpense.ExpenseID;
+
+            return CreatedAtAction(nameof(GetExpenseById), new { id = newExpense.ExpenseID }, expenseDTO);
         }
 
-        [HttpGet("{id}")]
-        public IActionResult GetExpenseById(int id)
-        {
-            var expense = _context.Expenses!.FirstOrDefault(e => e.ExpenseID == id);
 
-            if (expense == null)
-            {
-                return NotFound("Despesa não encontrada.");
-            }
-
-            return Ok(expense);
-        }
 
         [HttpPut("{id}")]
         public IActionResult UpdateExpense(int id, ExpenseDTO expenseDTO)
@@ -63,10 +121,22 @@ namespace BudgetTracker.API.Controllers
                 return NotFound("Despesa não encontrada.");
             }
 
+            var category = _context.Categories!.Find(expenseDTO.Category!.CategoryID);
+
+            if (category == null)
+            {
+                return BadRequest("Categoria inválida.");
+            }
+
+            // Atualizar o totalAmount da categoria
+            category.TotalAmount -= expense.Amount; // Subtrair o valor anterior da despesa
+            category.TotalAmount += expenseDTO.Amount; // Adicionar o novo valor da despesa
+
             expense.Title = expenseDTO.Title;
+            expense.Description = expenseDTO.Description;
             expense.Amount = expenseDTO.Amount;
             expense.Date = expenseDTO.Date;
-            expense.Category = expenseDTO.Category;
+            expense.Category = category;
 
             _context.SaveChanges();
 
@@ -83,10 +153,24 @@ namespace BudgetTracker.API.Controllers
                 return NotFound("Despesa não encontrada.");
             }
 
+            var categoryId = expense.CategoryID;
+
             _context.Expenses!.Remove(expense);
             _context.SaveChanges();
 
+            // Atualizar o totalAmount da categoria
+            var category = _context.Categories!.FirstOrDefault(c => c.CategoryID == categoryId);
+
+            if (category != null)
+            {
+                category.TotalAmount -= expense.Amount;
+                _context.SaveChanges();
+            }
+
             return NoContent();
         }
+
+
+
     }
 }

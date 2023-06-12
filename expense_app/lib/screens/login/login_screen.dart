@@ -2,8 +2,7 @@ import 'package:expense_app/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'register_screen.dart';
-import 'category_screen.dart';
+import '../register/register_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
