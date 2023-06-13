@@ -38,13 +38,13 @@ dependencies:
   sqflite: ^2.1.0
   path: ^1.8.2
   provider: ^6.0.3
-  intl: ^0.17.0
+  intl: ^0.18.0
   fl_chart: ^0.55.2
   http: ^1.0.0
   fluttertoast: ^8.0.8
   icons_launcher: ^2.1.1
   shared_preferences: ^2.1.2
-  
+  syncfusion_flutter_charts: ^21.2.9
 
 dev_dependencies:
   flutter_test:

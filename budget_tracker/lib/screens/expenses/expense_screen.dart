@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../widgets/drawer_default.dart';
+import '../../widgets/expense_form.dart';
+import '../../widgets/expense_screen/expense_chart.dart';
 import '../../widgets/expense_screen/expense_category_list.dart';
 
 class ExpenseScreen extends StatelessWidget {
@@ -13,14 +15,28 @@ class ExpenseScreen extends StatelessWidget {
         title: const Text('Despesas'),
       ),
       drawer: DrawerDefault(),
-      body: ExpenseCategoryList(),
+      body: Column(
+        children: [
+          Expanded(
+            flex: 2,
+            child: Container(
+              padding: const EdgeInsets.all(8.0),
+              child: ExpenseChart(),
+            ),
+          ),
+          Expanded(
+            flex: 3,
+            child: ExpenseCategoryList(),
+          ),
+        ],
+      ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          /*showModalBottomSheet(
+          showModalBottomSheet(
             context: context,
             isScrollControlled: true,
             builder: (_) => ExpenseForm(),
-          );*/
+          );
         },
         child: const Icon(Icons.add),
       ),

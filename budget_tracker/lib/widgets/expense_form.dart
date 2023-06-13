@@ -1,127 +1,160 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:intl/intl.dart';
-import '../models/database_provider.dart';
-import '../constants/icons.dart';
-import '../models/expense.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+import '../models/category_model.dart';
 
 class ExpenseForm extends StatefulWidget {
-  const ExpenseForm({super.key});
+  const ExpenseForm({Key? key}) : super(key: key);
 
   @override
-  State<ExpenseForm> createState() => _ExpenseFormState();
+  _ExpenseFormState createState() => _ExpenseFormState();
 }
 
 class _ExpenseFormState extends State<ExpenseForm> {
-  final _title = TextEditingController();
-  final _amount = TextEditingController();
-  DateTime? _date;
-  String _initialValue = 'Other';
+  late TextEditingController _nameController;
+  late TextEditingController _descriptionController;
+  late TextEditingController _amountController;
+  late TextEditingController _dateController;
+  int? _selectedCategoryId;
+  List<CategoryModel> categories = [];
 
-  //
-  _pickDate() async {
-    DateTime? pickedDate = await showDatePicker(
-        context: context,
-        initialDate: DateTime.now(),
-        firstDate: DateTime(2022),
-        lastDate: DateTime.now());
+  @override
+  void initState() {
+    super.initState();
+    _nameController = TextEditingController();
+    _descriptionController = TextEditingController();
+    _amountController = TextEditingController();
+    _dateController = TextEditingController();
+    fetchCategories(); // Fetch categories from API when the form is initialized
+  }
 
-    if (pickedDate != null) {
+  @override
+  void dispose() {
+    _nameController.dispose();
+    _descriptionController.dispose();
+    _amountController.dispose();
+    _dateController.dispose();
+    super.dispose();
+  }
+
+  Future<void> fetchCategories() async {
+    try {
+      final response =
+          await http.get(Uri.parse('http://10.0.2.2/api/category'));
+      if (response.statusCode == 200) {
+        final body = json.decode(response.body) as List<dynamic>;
+        final List<CategoryModel> fetchedCategories =
+            body.map((item) => CategoryModel.fromJson(item)).toList();
+        setState(() {
+          categories = fetchedCategories;
+        });
+      } else {
+        print(
+            'Failed to fetch categories. Status code: ${response.statusCode}');
+      }
+    } catch (error) {
+      print('Failed to fetch categories: $error');
+    }
+  }
+
+  Future<void> _selectDate(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2100),
+    );
+    if (picked != null) {
       setState(() {
-        _date = pickedDate;
+        _dateController.text = picked.toString();
       });
     }
   }
 
-  //
   @override
   Widget build(BuildContext context) {
-    final provider = Provider.of<DatabaseProvider>(context, listen: false);
-    return Container(
-      height: MediaQuery.of(context).size.height * 0.7,
-      padding: const EdgeInsets.all(20.0),
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            // title
-            TextField(
-              controller: _title,
-              decoration: const InputDecoration(
-                labelText: 'Title of expense',
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          TextFormField(
+            decoration: const InputDecoration(labelText: 'Nome'),
+            controller: _nameController,
+            validator: (value) {
+              if (value!.isEmpty) {
+                return 'Por favor, insira um nome.';
+              }
+              return null;
+            },
+          ),
+          const SizedBox(height: 16.0),
+          TextFormField(
+            decoration: const InputDecoration(labelText: 'Descrição'),
+            controller: _descriptionController,
+            validator: (value) {
+              if (value!.isEmpty) {
+                return 'Por favor, insira uma descrição.';
+              }
+              return null;
+            },
+          ),
+          const SizedBox(height: 16.0),
+          TextFormField(
+            decoration: const InputDecoration(labelText: 'Valor'),
+            controller: _amountController,
+            keyboardType: TextInputType.number,
+            validator: (value) {
+              if (value!.isEmpty) {
+                return 'Por favor, insira um valor.';
+              }
+              if (double.tryParse(value) == null) {
+                return 'Por favor, insira um valor válido.';
+              }
+              return null;
+            },
+          ),
+          const SizedBox(height: 16.0),
+          GestureDetector(
+            onTap: () {
+              _selectDate(context);
+            },
+            child: AbsorbPointer(
+              child: TextFormField(
+                decoration: const InputDecoration(
+                  labelText: 'Data',
+                  suffixIcon: Icon(Icons.calendar_today),
+                ),
+                controller: _dateController,
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'Por favor, selecione uma data.';
+                  }
+                  return null;
+                },
               ),
             ),
-            const SizedBox(height: 20.0),
-            // amount
-            TextField(
-              controller: _amount,
-              keyboardType: TextInputType.number,
-              decoration: const InputDecoration(
-                labelText: 'Amount of expense',
-              ),
-            ),
-            const SizedBox(height: 20.0),
-            // date picker
-            Row(
-              children: [
-                Expanded(
-                  child: Text(_date != null
-                      ? DateFormat('MMMM dd, yyyy').format(_date!)
-                      : 'Select Date'),
-                ),
-                IconButton(
-                  onPressed: () => _pickDate(),
-                  icon: const Icon(Icons.calendar_month),
-                ),
-              ],
-            ),
-            const SizedBox(height: 20.0),
-            // category
-            Row(
-              children: [
-                const Expanded(child: Text('Category')),
-                Expanded(
-                  child: DropdownButton(
-                    items: icons.keys
-                        .map(
-                          (e) => DropdownMenuItem(
-                            value: e,
-                            child: Text(e),
-                          ),
-                        )
-                        .toList(),
-                    value: _initialValue,
-                    onChanged: (newValue) {
-                      setState(() {
-                        _initialValue = newValue!;
-                      });
-                    },
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 20.0),
-            ElevatedButton.icon(
-              onPressed: () {
-                if (_title.text != '' && _amount.text != '') {
-                  // create an expense
-                  final file = Expense(
-                    id: 0,
-                    title: _title.text,
-                    amount: double.parse(_amount.text),
-                    date: _date != null ? _date! : DateTime.now(),
-                    category: _initialValue,
-                  );
-                  // add it to database.
-                  provider.addExpense(file);
-                  // close the bottomsheet
-                  Navigator.of(context).pop();
-                }
-              },
-              icon: const Icon(Icons.add),
-              label: const Text('Add Expense'),
-            ),
-          ],
-        ),
+          ),
+          const SizedBox(height: 16.0),
+          Text(
+            'Categoria',
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
+          DropdownButtonFormField<int>(
+            value: _selectedCategoryId,
+            onChanged: (int? categoryId) {
+              setState(() {
+                _selectedCategoryId = categoryId;
+              });
+            },
+            items: categories.map((CategoryModel category) {
+              return DropdownMenuItem<int>(
+                value: category.categoryID,
+                child: Text(category.categoryName),
+              );
+            }).toList(),
+          ),
+        ],
       ),
     );
   }

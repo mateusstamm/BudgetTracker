@@ -51,18 +51,67 @@ class _ExpenseCategoryListState extends State<ExpenseCategoryList> {
         } else if (snapshot.hasData) {
           final categories = snapshot.data!;
 
-          return ListView.builder(
-            itemCount: categories.length,
-            itemBuilder: (BuildContext context, int index) {
-              final category = categories[index];
-              return ListTile(
-                leading: Icon(category.icon),
-                title: Text(category.title),
-                subtitle: Text('Entries: ${category.entries}'),
-                trailing:
-                    Text('R\$ ${category.totalAmount.toStringAsFixed(2)}'),
-              );
-            },
+          return Container(
+            decoration: BoxDecoration(
+              color: Theme.of(context).hoverColor, // Cor adaptativa de fundo
+              borderRadius:
+                  BorderRadius.circular(10.0), // Bordas levemente arredondadas
+            ),
+            padding: EdgeInsets.all(12.0), // Espaçamento interno
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Despesas',
+                      style: TextStyle(
+                        fontSize: 18.0,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        // Navegar para a página de todas as despesas
+                      },
+                      child: Text(
+                        'Ver tudo',
+                        style: TextStyle(
+                          fontSize: 16.0,
+                          color: Colors.blue,
+                          decoration: TextDecoration.underline,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 12.0),
+                ListView.builder(
+                  shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
+                  itemCount: categories.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    final category = categories[index];
+                    return Container(
+                      decoration: BoxDecoration(
+                        color: Color.fromARGB(61, 189, 189, 189),
+                        borderRadius: BorderRadius.circular(8.0),
+                      ),
+                      margin: EdgeInsets.symmetric(vertical: 4.0),
+                      padding: EdgeInsets.all(2.0),
+                      child: ListTile(
+                        leading: Icon(category.icon),
+                        title: Text(category.title),
+                        subtitle: Text('Entries: ${category.entries}'),
+                        trailing: Text(
+                            'R\$ ${category.totalAmount.toStringAsFixed(2)}'),
+                      ),
+                    );
+                  },
+                ),
+              ],
+            ),
           );
         } else {
           return Center(child: Text('No categories found'));

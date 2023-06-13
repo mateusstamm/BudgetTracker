@@ -5,9 +5,30 @@ import '../../../models/expense_model.dart';
 class ExpenseDataSource {
   final String _baseUrl = 'http://10.0.2.2/api/expense';
 
+  Future<List<ExpenseModel>> getAllExpenses() async {
+    try {
+      final response = await http.get(Uri.parse('$_baseUrl'));
+
+      if (response.statusCode == 200) {
+        final List<dynamic> responseBody = json.decode(response.body);
+        final List<ExpenseModel> expenses = responseBody
+            .map((expense) => ExpenseModel.fromJson(expense))
+            .toList();
+        return expenses;
+      } else {
+        print('Failed to fetch expenses. Status code: ${response.statusCode}');
+        throw 'Failed to fetch expenses. Status code: ${response.statusCode}';
+      }
+    } catch (error) {
+      print('Failed to fetch expenses: $error');
+      throw 'Failed to fetch expenses: $error';
+    }
+  }
+
   Future<List<String>> getCategories() async {
     try {
-      final response = await http.get(Uri.parse('$_baseUrl/categories'));
+      final response =
+          await http.get(Uri.parse('http://10.0.2.2/api/category'));
 
       if (response.statusCode == 200) {
         final body = json.decode(response.body) as List<dynamic>;
