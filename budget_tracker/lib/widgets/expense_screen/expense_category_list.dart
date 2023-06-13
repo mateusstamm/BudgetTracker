@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import '../../screens/expenses/expense_list_screen.dart';
 
 class ExpenseCategoryList extends StatefulWidget {
   @override
@@ -73,14 +74,30 @@ class _ExpenseCategoryListState extends State<ExpenseCategoryList> {
                     ),
                     GestureDetector(
                       onTap: () {
-                        // Navegar para a página de todas as despesas
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ExpenseListScreen(),
+                          ),
+                        );
                       },
-                      child: Text(
-                        'Ver tudo',
-                        style: TextStyle(
-                          fontSize: 16.0,
-                          color: Colors.blue,
-                          decoration: TextDecoration.underline,
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color:
+                              Colors.lightBlue[100], // Cor de fundo azul claro
+                          borderRadius:
+                              BorderRadius.circular(8.0), // Bordas arredondadas
+                        ),
+                        padding: EdgeInsets.symmetric(
+                            horizontal: 12.0,
+                            vertical: 6.0), // Espaçamento interno
+                        child: Text(
+                          'Ver tudo',
+                          style: TextStyle(
+                            fontSize: 16.0,
+                            color: Colors.blue,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
                     ),
@@ -103,7 +120,7 @@ class _ExpenseCategoryListState extends State<ExpenseCategoryList> {
                       child: ListTile(
                         leading: Icon(category.icon),
                         title: Text(category.title),
-                        subtitle: Text('Entries: ${category.entries}'),
+                        subtitle: Text('Entradas: ${category.entries}'),
                         trailing: Text(
                             'R\$ ${category.totalAmount.toStringAsFixed(2)}'),
                       ),

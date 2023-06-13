@@ -26,6 +26,7 @@ namespace BudgetTracker.API.Controllers
                 Title = c.Title,
                 Description = c.Description,
                 TotalAmount = c.TotalAmount,
+                Entries = c.Entries,
                 Icon = c.Icon,
                 ExpenseCount = _context.Expenses!.Count(e => e.Category!.CategoryID == c.CategoryID)
             }).ToList();
@@ -46,6 +47,7 @@ namespace BudgetTracker.API.Controllers
                 Title = category.Title,
                 Description = category.Description,
                 TotalAmount = category.TotalAmount,
+                Entries = category.Entries,
                 Icon = category.Icon,
                 ExpenseCount = _context.Expenses!.Count(e => e.Category!.CategoryID == category.CategoryID)
             };
@@ -61,6 +63,7 @@ namespace BudgetTracker.API.Controllers
                 Title = categoryDTO.Title,
                 Description = categoryDTO.Description,
                 TotalAmount = categoryDTO.TotalAmount,
+                Entries = categoryDTO.Entries,
                 Icon = categoryDTO.Icon
             };
 

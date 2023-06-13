@@ -12,7 +12,9 @@ namespace BudgetTracker.API.Models
 
         public string ?Description { get; set; }
 
+        [Range(0, double.MaxValue, ErrorMessage = "O valor deve ser maior que zero.")]
         public double TotalAmount { get; set; }
+        public int Entries { get; set; }
 
         public int Icon { get; set; }
     }

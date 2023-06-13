@@ -21,7 +21,9 @@ class CategoryModel {
       categoryName: json['title'] as String,
       categoryDescription: json['description'] as String?,
       entries: json['entries'] as int?,
-      totalAmount: json['totalAmount'] as double?,
+      totalAmount: json['totalAmount'] != null
+          ? (json['totalAmount'] as num).toDouble()
+          : null,
       icon: json['icon'] as int?,
     );
   }
