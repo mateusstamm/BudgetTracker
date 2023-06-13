@@ -1,10 +1,12 @@
+import 'package:budget_tracker/models/category_model.dart';
+
 class ExpenseModel {
   int? expenseID;
   String? title;
   String? description;
   double amount;
   DateTime date;
-  int? categoryID;
+  CategoryModel? category;
 
   ExpenseModel({
     this.expenseID,
@@ -12,7 +14,7 @@ class ExpenseModel {
     this.description,
     required this.amount,
     required this.date,
-    this.categoryID,
+    required this.category,
   });
 
   Map<String, dynamic> toJson() {
@@ -22,7 +24,7 @@ class ExpenseModel {
       'description': description,
       'amount': amount,
       'date': date.toIso8601String(),
-      'categoryID': categoryID,
+      'category': category?.toJson(), // Serializar o objeto da categoria
     };
   }
 
@@ -33,7 +35,8 @@ class ExpenseModel {
       description: json['description'],
       amount: json['amount'].toDouble(),
       date: DateTime.parse(json['date']),
-      categoryID: json['categoryID'],
+      category: CategoryModel.fromJson(
+          json['category']), // Desserializar o objeto da categoria
     );
   }
 }

@@ -46,7 +46,7 @@ class _ExpenseFormState extends State<ExpenseForm> {
 
   Widget _buildCategoryDropdown() {
     return FutureBuilder<List<String>>(
-      future: widget.expenseDataSource.getCategories(),
+      //future: widget.expenseDataSource.getCategories(),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           final categories = snapshot.data!;
@@ -130,14 +130,14 @@ class _ExpenseFormState extends State<ExpenseForm> {
             ),
             _buildCategoryDropdown(),
             SizedBox(height: 16),
-            ElevatedButton(
+            /*ElevatedButton(
               onPressed: () async {
                 if (_formKey.currentState!.validate()) {
                   final expense = ExpenseModel(
                     title: _nameController.text,
                     amount: double.parse(_amountController.text),
                     date: _selectedDate,
-                    categoryID: int.tryParse(_selectedCategory),
+                    //category: ,
                   );
 
                   try {
@@ -163,7 +163,7 @@ class _ExpenseFormState extends State<ExpenseForm> {
                 }
               },
               child: Text('Adicionar'),
-            ),
+            ),*/
           ],
         ),
       ),

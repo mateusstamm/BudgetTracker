@@ -1,9 +1,10 @@
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import '../../../models/category_model.dart';
 import '../../../models/expense_model.dart';
 
 class ExpenseDataSource {
-  final String _baseUrl = 'http://10.0.2.2/api/expense';
+  final String _baseUrl = 'http://10.0.2.2/api/Expense';
 
   Future<List<ExpenseModel>> getAllExpenses() async {
     try {
@@ -25,14 +26,16 @@ class ExpenseDataSource {
     }
   }
 
-  Future<List<String>> getCategories() async {
+  Future<List<CategoryModel>> getAllCategories() async {
     try {
       final response =
           await http.get(Uri.parse('http://10.0.2.2/api/category'));
 
       if (response.statusCode == 200) {
-        final body = json.decode(response.body) as List<dynamic>;
-        final categories = body.map((item) => item.toString()).toList();
+        final List<dynamic> responseBody = json.decode(response.body);
+        final List<CategoryModel> categories = responseBody
+            .map((category) => CategoryModel.fromJson(category))
+            .toList();
         return categories;
       } else {
         print(
