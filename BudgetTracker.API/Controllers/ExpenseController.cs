@@ -143,7 +143,37 @@ namespace BudgetTracker.API.Controllers
 
             return NoContent();
         }
+		
+		[HttpGet("category/{categoryId}")]
+		public IActionResult GetExpensesByCategory(int categoryId)
+		{
+			var expenses = _context.Expenses!
+				.Include(e => e.Category)
+				.Where(e => e.CategoryID == categoryId)
+				.ToList();
 
+			var expenseDTOs = expenses.Select(e => new ExpenseDTO
+			{
+				ExpenseID = e.ExpenseID,
+				Title = e.Title,
+				Description = e.Description,
+				Amount = e.Amount,
+				Date = e.Date,
+				Category = new CategoryDTO
+				{
+					CategoryID = e.Category!.CategoryID,
+					Title = e.Category?.Title,
+					Description = e.Category?.Description,
+					TotalAmount = e.Category!.TotalAmount,
+					Entries = e.Category!.Entries,
+					Icon = e.Category.Icon
+				}
+			}).ToList();
+
+			return Ok(expenseDTOs);
+		}
+
+		
         [HttpDelete("{id}")]
         public IActionResult DeleteExpense(int id)
         {

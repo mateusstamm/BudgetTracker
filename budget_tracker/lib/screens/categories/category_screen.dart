@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../data/datasources/remote_api/category_data_source.dart';
+import '../../data/datasources/remote_api/expense_data_source.dart';
 import '../../models/category_model.dart';
 import '../../widgets/category_screen/category_form.dart';
 import '../../widgets/general/drawer_default.dart';
@@ -13,7 +14,8 @@ class CategoryList extends StatefulWidget {
 }
 
 class _CategoryListState extends State<CategoryList> {
-  final CategoryDataSource _dataSource = CategoryDataSource();
+  final CategoryDataSource _categoryDataSource = CategoryDataSource();
+  final ExpenseDataSource _expenseDataSource = ExpenseDataSource();
   List<CategoryModel> _categories = [];
 
   @override
@@ -24,7 +26,7 @@ class _CategoryListState extends State<CategoryList> {
 
   Future<void> fetchCategories() async {
     try {
-      final categories = await _dataSource.fetchCategories();
+      final categories = await _categoryDataSource.fetchCategories();
       setState(() {
         _categories = categories;
       });
@@ -35,7 +37,7 @@ class _CategoryListState extends State<CategoryList> {
 
   Future<void> addCategory(CategoryModel category) async {
     try {
-      final newCategory = await _dataSource.addCategory(category);
+      final newCategory = await _categoryDataSource.addCategory(category);
       setState(() {
         _categories.add(newCategory);
       });
@@ -48,7 +50,7 @@ class _CategoryListState extends State<CategoryList> {
       CategoryModel oldCategory, CategoryModel newCategory) async {
     try {
       final updatedCategory =
-          await _dataSource.updateCategory(oldCategory, newCategory);
+          await _categoryDataSource.updateCategory(oldCategory, newCategory);
       setState(() {
         final index = _categories.indexOf(oldCategory);
         _categories[index] = updatedCategory;
@@ -60,7 +62,33 @@ class _CategoryListState extends State<CategoryList> {
 
   Future<void> deleteCategory(CategoryModel category) async {
     try {
-      await _dataSource.deleteCategory(category);
+      final hasExpenses = await _expenseDataSource.hasExpenses(category);
+      if (hasExpenses) {
+        showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              title: const Text('Erro'),
+              content: const Text(
+                'Existem despesas cadastradas nesta categoria. Remova-as primeiro para prosseguir.',
+              ),
+              actions: [
+                TextButton(
+                  child: const Text('OK'),
+                  onPressed: () {
+                    Navigator.pop(context);
+                    Navigator.pushReplacement(context,
+                        MaterialPageRoute(builder: (_) => CategoryList()));
+                  },
+                ),
+              ],
+            );
+          },
+        );
+        return;
+      }
+
+      await _categoryDataSource.deleteCategory(category);
       setState(() {
         _categories.remove(category);
       });
@@ -109,31 +137,12 @@ class _CategoryListState extends State<CategoryList> {
     );
   }
 
-  void _showDeleteConfirmationDialog(CategoryModel category) {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: const Text('Confirmação'),
-          content:
-              const Text('Tem certeza de que deseja excluir esta categoria?'),
-          actions: [
-            TextButton(
-              child: const Text('Não'),
-              onPressed: () {
-                Navigator.pop(context);
-              },
-            ),
-            TextButton(
-              child: const Text('Sim'),
-              onPressed: () {
-                deleteCategory(category);
-                Navigator.pop(context);
-              },
-            ),
-          ],
-        );
-      },
+  void _navigateToCategoryScreen(CategoryModel category) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => CategoryList(),
+      ),
     );
   }
 
@@ -172,7 +181,8 @@ class _CategoryListState extends State<CategoryList> {
                       return AlertDialog(
                         title: const Text('Confirmação'),
                         content: const Text(
-                            'Tem certeza de que deseja excluir esta categoria?'),
+                          'Tem certeza de que deseja excluir esta categoria?',
+                        ),
                         actions: [
                           TextButton(
                             child: const Text('Não'),

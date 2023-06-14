@@ -97,6 +97,24 @@ class ExpenseDataSource {
     }
   }
 
+  Future<bool> hasExpenses(CategoryModel category) async {
+    try {
+      final response = await http
+          .get(Uri.parse('$_baseUrl/category/${category.categoryID}'));
+
+      if (response.statusCode == 200) {
+        final List<dynamic> responseBody = json.decode(response.body);
+        return responseBody.isNotEmpty;
+      } else {
+        print('Failed to fetch expenses. Status code: ${response.statusCode}');
+        throw 'Failed to fetch expenses. Status code: ${response.statusCode}';
+      }
+    } catch (error) {
+      print('Failed to fetch expenses: $error');
+      throw 'Failed to fetch expenses: $error';
+    }
+  }
+
   Future<void> deleteExpense(ExpenseModel expense) async {
     try {
       final response = await http.delete(

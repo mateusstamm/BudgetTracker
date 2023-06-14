@@ -64,7 +64,7 @@ class _ExpenseCategoryListState extends State<ExpenseCategoryList> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      'Despesas',
+                      'Categorias',
                       style: TextStyle(
                         fontSize: 18.0,
                         fontWeight: FontWeight.bold,
@@ -116,7 +116,7 @@ class _ExpenseCategoryListState extends State<ExpenseCategoryList> {
                         child: ListTile(
                           leading: Icon(category.icon),
                           title: Text(category.title),
-                          subtitle: Text('Entradas: ${category.entries}'),
+                          subtitle: Text('Despesas: ${category.entries}'),
                           trailing: Text(
                             'R\$ ${category.totalAmount.toStringAsFixed(2)}',
                           ),
