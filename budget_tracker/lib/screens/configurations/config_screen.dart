@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../widgets/drawer_default.dart';
-import '../../widgets/theme_model.dart';
+import '../../widgets/general/drawer_default.dart';
+import '../../widgets/general/theme_model.dart';
 
 class ConfigScreen extends StatelessWidget {
   const ConfigScreen({Key? key}) : super(key: key);

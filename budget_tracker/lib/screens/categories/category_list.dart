@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../../data/datasources/remote_api/category.dart';
 import '../../models/category_model.dart';
 import '../../widgets/categories_screen/category_form.dart';
-import '../../widgets/drawer_default.dart';
+import '../../widgets/general/drawer_default.dart';
 
 class CategoryList extends StatefulWidget {
   const CategoryList({Key? key}) : super(key: key);

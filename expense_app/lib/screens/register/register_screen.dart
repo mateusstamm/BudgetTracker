@@ -74,7 +74,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   password: password,
                 );
 
-                _registerUser(user);
+                _userRegister(user);
               },
               child: Text('Register'),
             ),
@@ -84,7 +84,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     );
   }
 
-  Future<void> _registerUser(UserModel user) async {
+  Future<void> _userRegister(UserModel user) async {
     final success = await _userRepository.register(user);
     if (success) {
       Navigator.pushReplacement(

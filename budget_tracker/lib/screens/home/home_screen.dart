@@ -1,6 +1,6 @@
 import 'package:budget_tracker/widgets/home_screen/home_features.dart';
 import 'package:flutter/material.dart';
-import '../../widgets/drawer_default.dart';
+import '../../widgets/general/drawer_default.dart';
 import '../../widgets/home_screen/home_header.dart';
 import '../../widgets/home_screen/home_tips.dart';
 

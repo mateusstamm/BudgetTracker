@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../widgets/category_screen/category_fetcher.dart';
-import '../../widgets/drawer_default.dart';
+import '../../widgets/general/drawer_default.dart';
 import '../../widgets/expense_form.dart';
 
 class ExpensesScreen extends StatelessWidget {

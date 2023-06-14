@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
+import 'home_carousel.dart';
 
 class HomeHeader extends StatelessWidget {
-  const HomeHeader({super.key});
+  const HomeHeader({Key? key});
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Image.asset(
-          'assets/img/home_bg.png',
+        SizedBox(
+          height: 200,
+          child: HomeCarousel(),
         ),
         SizedBox(height: 16),
         Align(

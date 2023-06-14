@@ -45,6 +45,7 @@ dependencies:
   icons_launcher: ^2.1.1
   shared_preferences: ^2.1.2
   syncfusion_flutter_charts: ^21.2.9
+  email_validator: ^2.1.17
 
 dev_dependencies:
   flutter_test:
@@ -73,7 +74,11 @@ flutter:
     - assets/img/icon.png
     - assets/img/budget_tracker.png
     - assets/img/budget_tracker_trans.png
-    - assets/img/home_bg.png
+    - assets/img/carousel_img1.png
+    - assets/img/carousel_img2.png
+    - assets/img/carousel_img3.png
+    - assets/img/carousel_img4.png
+    - assets/img/carousel_img5.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

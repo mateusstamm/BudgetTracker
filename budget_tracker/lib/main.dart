@@ -6,8 +6,8 @@ import 'package:budget_tracker/screens/expenses/expense_screen.dart';
 import 'package:budget_tracker/screens/home/home_screen.dart';
 import 'package:budget_tracker/screens/login/login_screen.dart';
 import 'package:budget_tracker/screens/register/register_screen.dart';
-import 'package:budget_tracker/widgets/custom_theme.dart';
-import 'package:budget_tracker/widgets/theme_model.dart';
+import 'package:budget_tracker/widgets/general/custom_theme.dart';
+import 'package:budget_tracker/widgets/general/theme_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

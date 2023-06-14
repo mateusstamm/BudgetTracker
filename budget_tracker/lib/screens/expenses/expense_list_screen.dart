@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../widgets/drawer_default.dart';
+import '../../widgets/general/drawer_default.dart';
 import '../../widgets/expense_screen/expense_list_item.dart';
 
 class ExpenseListScreen extends StatelessWidget {
