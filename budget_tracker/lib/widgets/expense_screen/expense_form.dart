@@ -1,172 +1,180 @@
 import 'package:flutter/material.dart';
-
-import '../../data/datasources/remote_api/expense.dart';
+import 'package:intl/intl.dart';
+import '../../data/datasources/remote_api/category_data_source.dart';
+import '../../data/datasources/remote_api/expense_data_source.dart';
+import '../../models/category_model.dart';
 import '../../models/expense_model.dart';
 
 class ExpenseForm extends StatefulWidget {
-  final ExpenseDataSource expenseDataSource;
-
-  const ExpenseForm({Key? key, required this.expenseDataSource})
-      : super(key: key);
-
   @override
   _ExpenseFormState createState() => _ExpenseFormState();
 }
 
 class _ExpenseFormState extends State<ExpenseForm> {
   final _formKey = GlobalKey<FormState>();
-  final TextEditingController _nameController = TextEditingController();
-  final TextEditingController _descriptionController = TextEditingController();
-  final TextEditingController _amountController = TextEditingController();
-  DateTime _selectedDate = DateTime.now();
-  String _selectedCategory = '';
+  final _titleController = TextEditingController();
+  final _descriptionController = TextEditingController();
+  final _amountController = TextEditingController();
+  DateTime? _selectedDate;
+  CategoryModel? _selectedCategory;
+  List<CategoryModel> _categories = []; // Lista de categorias disponíveis
 
   @override
-  void dispose() {
-    _nameController.dispose();
-    _descriptionController.dispose();
-    _amountController.dispose();
-    super.dispose();
+  void initState() {
+    super.initState();
+    fetchCategories(); // Buscar as categorias disponíveis ao iniciar o formulário
   }
 
-  Future<void> _selectDate(BuildContext context) async {
-    final DateTime? picked = await showDatePicker(
+  Future<void> fetchCategories() async {
+    try {
+      final categories = await CategoryDataSource().fetchCategories();
+      setState(() {
+        _categories = categories;
+      });
+    } catch (error) {
+      // Trate o erro de busca das categorias conforme necessário
+    }
+  }
+
+  Future<void> _selectDate() async {
+    final DateTime? pickedDate = await showDatePicker(
       context: context,
-      initialDate: _selectedDate,
-      firstDate: DateTime(1900),
-      lastDate: DateTime(2100),
+      initialDate: DateTime.now(),
+      firstDate: DateTime.now()
+          .subtract(Duration(days: 365)), // Defina o limite para 1 ano atrás
+      lastDate: DateTime.now(),
     );
 
-    if (picked != null && picked != _selectedDate) {
+    if (pickedDate != null) {
       setState(() {
-        _selectedDate = picked;
+        _selectedDate = pickedDate;
       });
     }
   }
 
-  Widget _buildCategoryDropdown() {
-    return FutureBuilder<List<String>>(
-      //future: widget.expenseDataSource.getCategories(),
-      builder: (context, snapshot) {
-        if (snapshot.hasData) {
-          final categories = snapshot.data!;
-          return DropdownButtonFormField<String>(
-            value: _selectedCategory,
-            onChanged: (String? newValue) {
-              setState(() {
-                _selectedCategory = newValue!;
-              });
-            },
-            items: categories.map<DropdownMenuItem<String>>((String category) {
-              return DropdownMenuItem<String>(
-                value: category,
-                child: Text(category),
-              );
-            }).toList(),
-            decoration: InputDecoration(
-              labelText: 'Categoria',
-            ),
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'Selecione uma categoria';
-              }
-              return null;
-            },
-          );
-        } else if (snapshot.hasError) {
-          return Text('Failed to load categories');
-        }
-        return CircularProgressIndicator();
-      },
-    );
+  String _formatDate(DateTime? date) {
+    if (date == null) return '';
+
+    final formattedDate = DateFormat('dd/MM/yyyy').format(date);
+    return formattedDate;
+  }
+
+  Future<void> _submitForm() async {
+    if (_formKey.currentState!.validate()) {
+      final String title = _titleController.text;
+      final String description = _descriptionController.text;
+      final double amount = _amountController.text.isNotEmpty
+          ? double.parse(_amountController.text)
+          : 0.0;
+
+      final CategoryModel selectedCategory = _selectedCategory!;
+
+      final ExpenseModel expense = ExpenseModel(
+        expenseID: 0, // Valor padrão para expenseID
+        title: title,
+        description: description,
+        amount: amount.toDouble(),
+        date: _selectedDate!,
+        category: selectedCategory,
+      );
+
+      try {
+        await ExpenseDataSource().addExpense(expense);
+        // Realize qualquer ação necessária após adicionar a despesa
+      } catch (error) {
+        // Trate o erro de adição de despesa conforme necessário
+      }
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: Form(
-        key: _formKey,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            TextFormField(
-              controller: _nameController,
-              decoration: InputDecoration(
-                labelText: 'Nome',
-              ),
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return 'Digite um nome';
-                }
-                return null;
-              },
-            ),
-            TextFormField(
-              controller: _descriptionController,
-              decoration: InputDecoration(
-                labelText: 'Descrição',
-              ),
-            ),
-            TextFormField(
-              controller: _amountController,
-              keyboardType: TextInputType.number,
-              decoration: InputDecoration(
-                labelText: 'Quantia',
-              ),
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return 'Digite uma quantia';
-                }
-                return null;
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.calendar_today),
-              title: Text('Data'),
-              subtitle: Text(
-                  '${_selectedDate.day}/${_selectedDate.month}/${_selectedDate.year}'),
-              onTap: () => _selectDate(context),
-            ),
-            _buildCategoryDropdown(),
-            SizedBox(height: 16),
-            /*ElevatedButton(
-              onPressed: () async {
-                if (_formKey.currentState!.validate()) {
-                  final expense = ExpenseModel(
-                    title: _nameController.text,
-                    amount: double.parse(_amountController.text),
-                    date: _selectedDate,
-                    //category: ,
-                  );
-
-                  try {
-                    await widget.expenseDataSource.addExpense(expense);
-                    Navigator.of(context).pop();
-                  } catch (error) {
-                    print('Failed to add expense: $error');
-                    showDialog(
-                      context: context,
-                      builder: (context) => AlertDialog(
-                        title: Text('Error'),
-                        content:
-                            Text('Failed to add expense. Please try again.'),
-                        actions: [
-                          TextButton(
-                            onPressed: () => Navigator.of(context).pop(),
-                            child: Text('OK'),
-                          ),
-                        ],
-                      ),
-                    );
+    return Form(
+      key: _formKey,
+      child: Column(
+        children: [
+          TextFormField(
+            controller: _titleController,
+            decoration: InputDecoration(labelText: 'Título'),
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'Por favor, informe o título da despesa.';
+              }
+              return null;
+            },
+          ),
+          TextFormField(
+            controller: _descriptionController,
+            decoration: InputDecoration(labelText: 'Descrição'),
+          ),
+          TextFormField(
+            controller: _amountController,
+            decoration: InputDecoration(labelText: 'Valor'),
+            keyboardType: TextInputType.number,
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'Por favor, informe o valor da despesa.';
+              }
+              return null;
+            },
+          ),
+          InkWell(
+            onTap: _selectDate,
+            child: IgnorePointer(
+              child: TextFormField(
+                decoration: InputDecoration(
+                  labelText: 'Data',
+                  suffixIcon: Icon(Icons.calendar_today),
+                ),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Por favor, informe a data da despesa.';
                   }
-                }
-              },
-              child: Text('Adicionar'),
-            ),*/
-          ],
-        ),
+                  return null;
+                },
+                controller:
+                    TextEditingController(text: _formatDate(_selectedDate)),
+              ),
+            ),
+          ),
+          Text(
+            'Categoria',
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
+          DropdownButtonFormField<CategoryModel>(
+            value: _selectedCategory,
+            onChanged: (CategoryModel? category) {
+              setState(() {
+                _selectedCategory = category;
+              });
+            },
+            items: _categories.map((CategoryModel category) {
+              return DropdownMenuItem<CategoryModel>(
+                value: category,
+                child: Text(category.categoryName),
+              );
+            }).toList(),
+            validator: (value) {
+              if (value == null) {
+                return 'Por favor, selecione uma categoria.';
+              }
+              return null;
+            },
+          ),
+          ElevatedButton(
+            onPressed: _submitForm,
+            child: Text('Salvar'),
+          ),
+        ],
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    _titleController.dispose();
+    _descriptionController.dispose();
+    _amountController.dispose();
+    super.dispose();
   }
 }

@@ -1,7 +1,5 @@
-import 'package:budget_tracker/screens/all_expenses.dart';
-import 'package:budget_tracker/screens/categories/category_list.dart';
+import 'package:budget_tracker/screens/categories/category_screen.dart';
 import 'package:budget_tracker/screens/configurations/config_screen.dart';
-import 'package:budget_tracker/screens/expense_graph.dart';
 import 'package:budget_tracker/screens/expenses/expense_screen.dart';
 import 'package:budget_tracker/screens/home/home_screen.dart';
 import 'package:budget_tracker/screens/login/login_screen.dart';
@@ -37,8 +35,6 @@ class MyApp extends StatelessWidget {
           CategoryList.name: (_) => const CategoryList(),
           ConfigScreen.name: (_) => const ConfigScreen(),
           ExpenseScreen.name: (_) => const ExpenseScreen(),
-          ExpenseGraph.name: (_) => const ExpenseGraph(),
-          AllExpenses.name: (_) => const AllExpenses(),
         },
       ),
     );

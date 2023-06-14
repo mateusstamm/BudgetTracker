@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../screens/categories/category_list.dart';
+import '../../screens/categories/category_screen.dart';
 import '../../screens/configurations/config_screen.dart';
 import '../../screens/expenses/expense_screen.dart';
 import '../../screens/home/home_screen.dart';

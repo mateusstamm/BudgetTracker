@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import '../../data/datasources/remote_api/category.dart';
+import '../../data/datasources/remote_api/category_data_source.dart';
 import '../../models/category_model.dart';
-import '../../widgets/categories_screen/category_form.dart';
+import '../../widgets/category_screen/category_form.dart';
 import '../../widgets/general/drawer_default.dart';
 
 class CategoryList extends StatefulWidget {
@@ -141,7 +141,14 @@ class _CategoryListState extends State<CategoryList> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Lista de Categorias'),
+        title: Text(
+          'Lista de Categorias',
+          style: TextStyle(
+            fontSize: 25,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        centerTitle: true,
       ),
       drawer: const DrawerDefault(),
       body: Stack(

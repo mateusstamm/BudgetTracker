@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../widgets/general/drawer_default.dart';
-import '../../widgets/expense_form.dart';
+import '../../widgets/expense_screen/expense_form.dart';
 import '../../widgets/expense_screen/expense_chart.dart';
 import '../../widgets/expense_screen/expense_category_list.dart';
 
@@ -12,7 +12,14 @@ class ExpenseScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Despesas'),
+        title: Text(
+          'Despesas',
+          style: TextStyle(
+            fontSize: 25,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        centerTitle: true,
       ),
       drawer: DrawerDefault(),
       body: Column(

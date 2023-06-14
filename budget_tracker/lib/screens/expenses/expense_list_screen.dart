@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import '../../widgets/general/drawer_default.dart';
 import '../../widgets/expense_screen/expense_list_item.dart';
 
 class ExpenseListScreen extends StatelessWidget {
@@ -10,7 +9,14 @@ class ExpenseListScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Todas as Despesas'),
+        title: Text(
+          'Todas as Despesas',
+          style: TextStyle(
+            fontSize: 25,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        centerTitle: true,
       ),
       body: ExpenseListItem(),
     );

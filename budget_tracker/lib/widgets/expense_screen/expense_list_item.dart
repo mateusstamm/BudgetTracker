@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../data/datasources/remote_api/expense.dart';
+import '../../data/datasources/remote_api/expense_data_source.dart';
 import '../../models/expense_model.dart';
 
 class ExpenseListItem extends StatefulWidget {

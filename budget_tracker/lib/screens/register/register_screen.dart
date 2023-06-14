@@ -10,7 +10,7 @@ class RegisterScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Registrar'),
+        title: const Text('Registro'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),

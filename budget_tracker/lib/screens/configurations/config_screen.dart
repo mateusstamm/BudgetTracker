@@ -11,7 +11,14 @@ class ConfigScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Configurações'),
+        title: Text(
+          'Configurações',
+          style: TextStyle(
+            fontSize: 25,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        centerTitle: true,
       ),
       drawer: DrawerDefault(),
       body: Consumer<ThemeModel>(
