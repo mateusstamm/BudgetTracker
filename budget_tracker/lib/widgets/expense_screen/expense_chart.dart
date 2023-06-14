@@ -32,6 +32,10 @@ class _ExpenseChartState extends State<ExpenseChart> {
           final categories = snapshot.data!;
           final data = _createData(categories);
 
+          if (data.isEmpty) {
+            return Center(child: Text('Ainda não há despesas registradas.'));
+          }
+
           return Stack(
             children: [
               Padding(
