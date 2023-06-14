@@ -18,7 +18,22 @@ class ExpenseListScreen extends StatelessWidget {
         ),
         centerTitle: true,
       ),
-      body: ExpenseListItem(),
+      body: Stack(
+        children: [
+          ExpenseListItem(),
+          Center(
+            child: Container(
+              color: Colors.transparent,
+              padding: EdgeInsets.symmetric(vertical: 16.0),
+              child: Text(
+                'Deslize para deletar',
+                style: TextStyle(
+                    fontSize: 16.0, color: Color.fromARGB(72, 185, 185, 185)),
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
