@@ -27,8 +27,7 @@ class _ExpenseCategoryListState extends State<ExpenseCategoryList> {
         return CategoryItem(
           icon: IconData(item['icon'], fontFamily: 'MaterialIcons'),
           title: item['title'],
-          entries:
-              item['entries'] ?? 0, // Defina um valor padrão de 0 se for nulo
+          entries: item['entries'] ?? 0,
           totalAmount: item['totalAmount'].toDouble(),
         );
       }).toList();
@@ -54,11 +53,10 @@ class _ExpenseCategoryListState extends State<ExpenseCategoryList> {
 
           return Container(
             decoration: BoxDecoration(
-              color: Theme.of(context).hoverColor, // Cor adaptativa de fundo
-              borderRadius:
-                  BorderRadius.circular(10.0), // Bordas levemente arredondadas
+              color: Theme.of(context).hoverColor,
+              borderRadius: BorderRadius.circular(10.0),
             ),
-            padding: EdgeInsets.all(12.0), // Espaçamento interno
+            padding: EdgeInsets.all(12.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -83,14 +81,13 @@ class _ExpenseCategoryListState extends State<ExpenseCategoryList> {
                       },
                       child: Container(
                         decoration: BoxDecoration(
-                          color:
-                              Colors.lightBlue[100], // Cor de fundo azul claro
-                          borderRadius:
-                              BorderRadius.circular(8.0), // Bordas arredondadas
+                          color: Colors.lightBlue[100],
+                          borderRadius: BorderRadius.circular(8.0),
                         ),
                         padding: EdgeInsets.symmetric(
-                            horizontal: 12.0,
-                            vertical: 6.0), // Espaçamento interno
+                          horizontal: 12.0,
+                          vertical: 6.0,
+                        ),
                         child: Text(
                           'Ver tudo',
                           style: TextStyle(
@@ -104,28 +101,29 @@ class _ExpenseCategoryListState extends State<ExpenseCategoryList> {
                   ],
                 ),
                 SizedBox(height: 12.0),
-                ListView.builder(
-                  shrinkWrap: true,
-                  physics: NeverScrollableScrollPhysics(),
-                  itemCount: categories.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    final category = categories[index];
-                    return Container(
-                      decoration: BoxDecoration(
-                        color: Color.fromARGB(61, 189, 189, 189),
-                        borderRadius: BorderRadius.circular(8.0),
-                      ),
-                      margin: EdgeInsets.symmetric(vertical: 4.0),
-                      padding: EdgeInsets.all(2.0),
-                      child: ListTile(
-                        leading: Icon(category.icon),
-                        title: Text(category.title),
-                        subtitle: Text('Entradas: ${category.entries}'),
-                        trailing: Text(
-                            'R\$ ${category.totalAmount.toStringAsFixed(2)}'),
-                      ),
-                    );
-                  },
+                Expanded(
+                  child: ListView.builder(
+                    itemCount: categories.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      final category = categories[index];
+                      return Container(
+                        decoration: BoxDecoration(
+                          color: Color.fromARGB(61, 189, 189, 189),
+                          borderRadius: BorderRadius.circular(8.0),
+                        ),
+                        margin: EdgeInsets.symmetric(vertical: 4.0),
+                        padding: EdgeInsets.all(2.0),
+                        child: ListTile(
+                          leading: Icon(category.icon),
+                          title: Text(category.title),
+                          subtitle: Text('Entradas: ${category.entries}'),
+                          trailing: Text(
+                            'R\$ ${category.totalAmount.toStringAsFixed(2)}',
+                          ),
+                        ),
+                      );
+                    },
+                  ),
                 ),
               ],
             ),

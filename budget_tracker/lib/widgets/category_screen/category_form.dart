@@ -23,6 +23,7 @@ class _CategoryFormState extends State<CategoryForm> {
   late TextEditingController _nameController;
   late TextEditingController _descriptionController;
   IconData? _selectedIcon;
+  bool _nameError = false;
 
   @override
   void initState() {
@@ -49,8 +50,17 @@ class _CategoryFormState extends State<CategoryForm> {
         mainAxisSize: MainAxisSize.min,
         children: [
           TextField(
-            decoration: const InputDecoration(labelText: 'Nome'),
+            decoration: InputDecoration(
+              labelText: 'Nome',
+              errorText:
+                  _nameError ? 'Informe um nome! Campo obrigatório.' : null,
+            ),
             controller: _nameController,
+            onChanged: (_) {
+              setState(() {
+                _nameError = false;
+              });
+            },
           ),
           const SizedBox(height: 16.0),
           TextField(
@@ -114,11 +124,18 @@ class _CategoryFormState extends State<CategoryForm> {
                   final name = _nameController.text;
                   final description = _descriptionController.text;
                   final icon = _selectedIcon!.codePoint;
-                  widget.onSave(CategoryModel(
-                    categoryName: name,
-                    categoryDescription: description,
-                    icon: icon,
-                  ));
+
+                  if (name.isEmpty) {
+                    setState(() {
+                      _nameError = true;
+                    });
+                  } else {
+                    widget.onSave(CategoryModel(
+                      categoryName: name,
+                      categoryDescription: description,
+                      icon: icon,
+                    ));
+                  }
                 },
               ),
             ],

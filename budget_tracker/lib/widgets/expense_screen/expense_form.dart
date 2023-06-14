@@ -89,83 +89,94 @@ class _ExpenseFormState extends State<ExpenseForm> {
 
   @override
   Widget build(BuildContext context) {
-    return Form(
-      key: _formKey,
-      child: Column(
-        children: [
-          TextFormField(
-            controller: _titleController,
-            decoration: InputDecoration(labelText: 'Título'),
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'Por favor, informe o título da despesa.';
-              }
-              return null;
-            },
-          ),
-          TextFormField(
-            controller: _descriptionController,
-            decoration: InputDecoration(labelText: 'Descrição'),
-          ),
-          TextFormField(
-            controller: _amountController,
-            decoration: InputDecoration(labelText: 'Valor'),
-            keyboardType: TextInputType.number,
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'Por favor, informe o valor da despesa.';
-              }
-              return null;
-            },
-          ),
-          InkWell(
-            onTap: _selectDate,
-            child: IgnorePointer(
-              child: TextFormField(
-                decoration: InputDecoration(
-                  labelText: 'Data',
-                  suffixIcon: Icon(Icons.calendar_today),
-                ),
+    return SingleChildScrollView(
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Form(
+          key: _formKey,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              TextFormField(
+                controller: _titleController,
+                decoration: InputDecoration(labelText: 'Título'),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Por favor, informe a data da despesa.';
+                    return 'Por favor, informe o título da despesa.';
                   }
                   return null;
                 },
-                controller:
-                    TextEditingController(text: _formatDate(_selectedDate)),
               ),
-            ),
+              SizedBox(height: 8.0),
+              TextFormField(
+                controller: _descriptionController,
+                decoration: InputDecoration(labelText: 'Descrição'),
+              ),
+              SizedBox(height: 8.0),
+              TextFormField(
+                controller: _amountController,
+                decoration: InputDecoration(labelText: 'Valor'),
+                keyboardType: TextInputType.number,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Por favor, informe o valor da despesa.';
+                  }
+                  return null;
+                },
+              ),
+              SizedBox(height: 8.0),
+              InkWell(
+                onTap: _selectDate,
+                child: IgnorePointer(
+                  child: TextFormField(
+                    decoration: InputDecoration(
+                      labelText: 'Data',
+                      suffixIcon: Icon(Icons.calendar_today),
+                    ),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Por favor, informe a data da despesa.';
+                      }
+                      return null;
+                    },
+                    controller:
+                        TextEditingController(text: _formatDate(_selectedDate)),
+                  ),
+                ),
+              ),
+              SizedBox(height: 8.0),
+              Text(
+                'Categoria',
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+              DropdownButtonFormField<CategoryModel>(
+                value: _selectedCategory,
+                onChanged: (CategoryModel? category) {
+                  setState(() {
+                    _selectedCategory = category;
+                  });
+                },
+                items: _categories.map((CategoryModel category) {
+                  return DropdownMenuItem<CategoryModel>(
+                    value: category,
+                    child: Text(category.categoryName),
+                  );
+                }).toList(),
+                validator: (value) {
+                  if (value == null) {
+                    return 'Por favor, selecione uma categoria.';
+                  }
+                  return null;
+                },
+              ),
+              SizedBox(height: 16.0),
+              ElevatedButton(
+                onPressed: _submitForm,
+                child: Text('Salvar'),
+              ),
+            ],
           ),
-          Text(
-            'Categoria',
-            style: TextStyle(fontWeight: FontWeight.bold),
-          ),
-          DropdownButtonFormField<CategoryModel>(
-            value: _selectedCategory,
-            onChanged: (CategoryModel? category) {
-              setState(() {
-                _selectedCategory = category;
-              });
-            },
-            items: _categories.map((CategoryModel category) {
-              return DropdownMenuItem<CategoryModel>(
-                value: category,
-                child: Text(category.categoryName),
-              );
-            }).toList(),
-            validator: (value) {
-              if (value == null) {
-                return 'Por favor, selecione uma categoria.';
-              }
-              return null;
-            },
-          ),
-          ElevatedButton(
-            onPressed: _submitForm,
-            child: Text('Salvar'),
-          ),
-        ],
+        ),
       ),
     );
   }
