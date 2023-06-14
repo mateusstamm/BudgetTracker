@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../../data/datasources/remote_api/expense_data_source.dart';
 import '../../models/expense_model.dart';
 import '../../screens/expenses/expense_screen.dart';
+import 'expense_form.dart';
 
 class ExpenseListItem extends StatefulWidget {
   @override
@@ -103,7 +104,13 @@ class _ExpenseListItemState extends State<ExpenseListItem> {
                     child: IconButton(
                       icon: Icon(Icons.edit),
                       onPressed: () {
-                        // Adicione aqui a ação para editar a despesa
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                ExpenseForm(expenseToEdit: expense),
+                          ),
+                        );
                       },
                     ),
                   ),

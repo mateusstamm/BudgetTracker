@@ -8,6 +8,10 @@ import '../../models/expense_model.dart';
 import '../../screens/expenses/expense_screen.dart';
 
 class ExpenseForm extends StatefulWidget {
+  final ExpenseModel? expenseToEdit;
+
+  ExpenseForm({this.expenseToEdit});
+
   @override
   _ExpenseFormState createState() => _ExpenseFormState();
 }
@@ -31,6 +35,10 @@ class _ExpenseFormState extends State<ExpenseForm> {
         _isKeyboardVisible = visible;
       });
     });
+
+    if (widget.expenseToEdit != null) {
+      _initFormValues();
+    }
   }
 
   Future<void> fetchCategories() async {
@@ -44,10 +52,19 @@ class _ExpenseFormState extends State<ExpenseForm> {
     }
   }
 
+  void _initFormValues() {
+    final expense = widget.expenseToEdit!;
+    _titleController.text = expense.title!;
+    _descriptionController.text = expense.description!;
+    _amountController.text = expense.amount.toString();
+    _selectedDate = expense.date;
+    //_selectedCategory = expense.category;
+  }
+
   Future<void> _selectDate() async {
     final DateTime? pickedDate = await showDatePicker(
       context: context,
-      initialDate: DateTime.now(),
+      initialDate: _selectedDate ?? DateTime.now(),
       firstDate: DateTime.now().subtract(Duration(days: 365)),
       lastDate: DateTime.now(),
     );
@@ -77,7 +94,7 @@ class _ExpenseFormState extends State<ExpenseForm> {
       final CategoryModel selectedCategory = _selectedCategory!;
 
       final ExpenseModel expense = ExpenseModel(
-        expenseID: 0,
+        expenseID: widget.expenseToEdit?.expenseID ?? 0,
         title: title,
         description: description,
         amount: amount.toDouble(),
@@ -86,113 +103,21 @@ class _ExpenseFormState extends State<ExpenseForm> {
       );
 
       try {
-        await ExpenseDataSource().addExpense(expense);
+        if (widget.expenseToEdit != null) {
+          await ExpenseDataSource()
+              .updateExpense(widget.expenseToEdit!, expense);
+        } else {
+          await ExpenseDataSource().addExpense(expense);
+        }
+
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) => ExpenseScreen()),
         );
       } catch (error) {
-        // Trate o erro de adição de despesa conforme necessário
+        // Trate o erro de adição ou atualização da despesa conforme necessário
       }
     }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Padding(
-        padding: EdgeInsets.only(
-          left: 16.0,
-          right: 16.0,
-          bottom: _isKeyboardVisible ? 200.0 : 16.0,
-        ),
-        child: Form(
-          key: _formKey,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              TextFormField(
-                controller: _titleController,
-                decoration: InputDecoration(labelText: 'Título'),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Por favor, informe o título da despesa.';
-                  }
-                  return null;
-                },
-              ),
-              SizedBox(height: 8.0),
-              TextFormField(
-                controller: _descriptionController,
-                decoration: InputDecoration(labelText: 'Descrição'),
-              ),
-              SizedBox(height: 8.0),
-              TextFormField(
-                controller: _amountController,
-                decoration: InputDecoration(labelText: 'Valor'),
-                keyboardType: TextInputType.number,
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Por favor, informe o valor da despesa.';
-                  }
-                  return null;
-                },
-              ),
-              SizedBox(height: 8.0),
-              InkWell(
-                onTap: _selectDate,
-                child: IgnorePointer(
-                  child: TextFormField(
-                    decoration: InputDecoration(
-                      labelText: 'Data',
-                      suffixIcon: Icon(Icons.calendar_today),
-                    ),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Por favor, informe a data da despesa.';
-                      }
-                      return null;
-                    },
-                    controller:
-                        TextEditingController(text: _formatDate(_selectedDate)),
-                  ),
-                ),
-              ),
-              SizedBox(height: 8.0),
-              Text(
-                'Categoria',
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
-              DropdownButtonFormField<CategoryModel>(
-                value: _selectedCategory,
-                onChanged: (CategoryModel? category) {
-                  setState(() {
-                    _selectedCategory = category;
-                  });
-                },
-                items: _categories.map((CategoryModel category) {
-                  return DropdownMenuItem<CategoryModel>(
-                    value: category,
-                    child: Text(category.categoryName),
-                  );
-                }).toList(),
-                validator: (value) {
-                  if (value == null) {
-                    return 'Por favor, selecione uma categoria.';
-                  }
-                  return null;
-                },
-              ),
-              SizedBox(height: 16.0),
-              ElevatedButton(
-                onPressed: _submitForm,
-                child: Text('Salvar'),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
   }
 
   @override
@@ -201,5 +126,106 @@ class _ExpenseFormState extends State<ExpenseForm> {
     _descriptionController.dispose();
     _amountController.dispose();
     super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        // Fecha o teclado quando o usuário tocar fora dos campos de entrada
+        FocusScope.of(context).unfocus();
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(widget.expenseToEdit != null
+              ? 'Editar Despesa'
+              : 'Adicionar Despesa'),
+        ),
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: EdgeInsets.all(16.0),
+            child: Form(
+              key: _formKey,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  TextFormField(
+                    controller: _titleController,
+                    decoration: InputDecoration(labelText: 'Título'),
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'Por favor, insira um título';
+                      }
+                      return null;
+                    },
+                  ),
+                  TextFormField(
+                    controller: _descriptionController,
+                    decoration: InputDecoration(labelText: 'Descrição'),
+                  ),
+                  TextFormField(
+                    controller: _amountController,
+                    keyboardType: TextInputType.number,
+                    decoration: InputDecoration(labelText: 'Valor'),
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'Por favor, insira um valor';
+                      }
+                      if (double.tryParse(value) == null) {
+                        return 'Por favor, insira um valor válido';
+                      }
+                      return null;
+                    },
+                  ),
+                  SizedBox(height: 16.0),
+                  GestureDetector(
+                    onTap: _selectDate,
+                    child: Row(
+                      children: [
+                        Icon(Icons.calendar_today),
+                        SizedBox(width: 8.0),
+                        Text(
+                          'Data: ${_formatDate(_selectedDate)}',
+                          style: TextStyle(fontSize: 16.0),
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(height: 16.0),
+                  DropdownButtonFormField<CategoryModel>(
+                    value: _selectedCategory,
+                    items: _categories.map((category) {
+                      return DropdownMenuItem<CategoryModel>(
+                        value: category,
+                        child: Text(category.categoryName),
+                      );
+                    }).toList(),
+                    onChanged: (value) {
+                      setState(() {
+                        _selectedCategory = value;
+                      });
+                    },
+                    decoration: InputDecoration(
+                      labelText: 'Categoria',
+                    ),
+                    validator: (value) {
+                      if (value == null) {
+                        return 'Por favor, selecione uma categoria';
+                      }
+                      return null;
+                    },
+                  ),
+                  SizedBox(height: 16.0),
+                  ElevatedButton(
+                    onPressed: _submitForm,
+                    child: Text('Salvar'),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
   }
 }
