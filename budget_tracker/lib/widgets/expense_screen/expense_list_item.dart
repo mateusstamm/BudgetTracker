@@ -134,6 +134,11 @@ class _ExpenseListItemState extends State<ExpenseListItem> {
                           '${_truncateDescription(expense.description!)}',
                           style: TextStyle(fontSize: 14.0),
                         ),
+                        SizedBox(height: 4.0),
+                        Text(
+                          'Categoria: ${expense.category!.categoryName}', // Exibir categoria
+                          style: TextStyle(fontSize: 14.0),
+                        ),
                       ],
                     ),
                   ),

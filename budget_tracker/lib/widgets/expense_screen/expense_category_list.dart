@@ -89,7 +89,7 @@ class _ExpenseCategoryListState extends State<ExpenseCategoryList> {
                           vertical: 6.0,
                         ),
                         child: Text(
-                          'Ver tudo',
+                          'Ver despesas',
                           style: TextStyle(
                             fontSize: 16.0,
                             color: Colors.blue,
