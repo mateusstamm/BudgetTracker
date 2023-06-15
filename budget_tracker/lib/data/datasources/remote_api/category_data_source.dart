@@ -30,12 +30,12 @@ class CategoryDataSource {
 
         return categories;
       } else {
-        print(
-            'Failed to fetch categories. Status code: ${response.statusCode}');
+        //print(
+        //    'Failed to fetch categories. Status code: ${response.statusCode}');
         return [];
       }
     } catch (error) {
-      print('Failed to fetch categories: $error');
+      //print('Failed to fetch categories: $error');
       return [];
     }
   }
@@ -55,11 +55,11 @@ class CategoryDataSource {
         final newCategory = CategoryModel.fromJson(responseBody);
         return newCategory;
       } else {
-        print('Failed to add category. Status code: ${response.statusCode}');
+        //print('Failed to add category. Status code: ${response.statusCode}');
         throw 'Failed to add category. Status code: ${response.statusCode}';
       }
     } catch (error) {
-      print('Failed to add category: $error');
+      //print('Failed to add category: $error');
       throw 'Failed to add category: $error';
     }
   }
@@ -80,11 +80,11 @@ class CategoryDataSource {
             CategoryModel.fromJson(json.decode(response.body));
         return updatedCategory;
       } else {
-        print('Failed to update category. Status code: ${response.statusCode}');
+        //print('Failed to update category. Status code: ${response.statusCode}');
         throw 'Failed to update category. Status code: ${response.statusCode}';
       }
     } catch (error) {
-      print('Failed to update category: $error');
+      //print('Failed to update category: $error');
       throw 'Failed to update category: $error';
     }
   }
@@ -96,11 +96,11 @@ class CategoryDataSource {
       );
 
       if (response.statusCode != 200) {
-        print('Failed to delete category. Status code: ${response.statusCode}');
+        //print('Failed to delete category. Status code: ${response.statusCode}');
         throw 'Failed to delete category. Status code: ${response.statusCode}';
       }
     } catch (error) {
-      print('Failed to delete category: $error');
+      //print('Failed to delete category: $error');
       throw 'Failed to delete category: $error';
     }
   }

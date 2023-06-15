@@ -68,8 +68,8 @@ class _ExpenseListItemState extends State<ExpenseListItem> {
                       child: const Text('Sim'),
                       onPressed: () async {
                         await deleteExpense(expense);
-                        Navigator.pop(context, true);
-                        Navigator.pushReplacement(
+                        const Navigator.pop(context, true);
+                        const Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
                             builder: (context) => ExpenseScreen(),
@@ -114,7 +114,7 @@ class _ExpenseListItemState extends State<ExpenseListItem> {
                       },
                     ),
                   ),
-                  SizedBox(width: 8.0),
+                  const SizedBox(width: 8.0),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -124,17 +124,18 @@ class _ExpenseListItemState extends State<ExpenseListItem> {
                           children: [
                             Text(
                               '${expense.title}',
-                              style: TextStyle(fontWeight: FontWeight.bold),
+                              style:
+                                  const TextStyle(fontWeight: FontWeight.bold),
                             ),
-                            SizedBox(width: 8.0),
+                            const SizedBox(width: 8.0),
                           ],
                         ),
-                        SizedBox(height: 4.0),
+                        const SizedBox(height: 4.0),
                         Text(
                           '${_truncateDescription(expense.description!)}',
-                          style: TextStyle(fontSize: 14.0),
+                          style: const TextStyle(fontSize: 14.0),
                         ),
-                        SizedBox(height: 4.0),
+                        const SizedBox(height: 4.0),
                         Text(
                           'Categoria: ${expense.category!.categoryName}', // Exibir categoria
                           style: TextStyle(fontSize: 14.0),

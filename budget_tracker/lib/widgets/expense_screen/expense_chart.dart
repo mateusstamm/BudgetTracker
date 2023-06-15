@@ -33,13 +33,14 @@ class _ExpenseChartState extends State<ExpenseChart> {
           final data = _createData(categories);
 
           if (data.isEmpty) {
-            return Center(child: Text('Ainda não há despesas registradas.'));
+            return const Center(
+                child: Text('Ainda não há despesas registradas.'));
           }
 
           return Stack(
             children: [
               Padding(
-                padding: EdgeInsets.only(
+                padding: const EdgeInsets.only(
                     top: 20), // Ajuste o valor conforme necessário
                 child: SfCircularChart(
                   series: <CircularSeries>[
@@ -51,7 +52,7 @@ class _ExpenseChartState extends State<ExpenseChart> {
                           category.totalAmount ?? 0,
                       dataLabelMapper: (CategoryModel category, _) =>
                           '${category.categoryName}\n        ${_calculatePercentage(category, categories).toStringAsFixed(1)}%',
-                      dataLabelSettings: DataLabelSettings(
+                      dataLabelSettings: const DataLabelSettings(
                         isVisible: true,
                         color: Colors.black,
                         labelAlignment: ChartDataLabelAlignment.top,
@@ -66,8 +67,8 @@ class _ExpenseChartState extends State<ExpenseChart> {
                 child: Align(
                   alignment: Alignment.topCenter,
                   child: Container(
-                    padding: EdgeInsets.all(8),
-                    child: Text(
+                    padding: const EdgeInsets.all(8),
+                    child: const Text(
                       'QUANTIA TOTAL POR CATEGORIA',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
@@ -80,7 +81,7 @@ class _ExpenseChartState extends State<ExpenseChart> {
             ],
           );
         } else {
-          return Center(child: Text('No data available'));
+          return const Center(child: Text('No data available'));
         }
       },
     );

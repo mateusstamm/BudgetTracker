@@ -24,16 +24,13 @@ class _ExpenseFormState extends State<ExpenseForm> {
   DateTime? _selectedDate;
   CategoryModel? _selectedCategory;
   List<CategoryModel> _categories = [];
-  bool _isKeyboardVisible = false;
 
   @override
   void initState() {
     super.initState();
     fetchCategories();
     KeyboardVisibilityController().onChange.listen((bool visible) {
-      setState(() {
-        _isKeyboardVisible = visible;
-      });
+      setState(() {});
     });
 
     if (widget.expenseToEdit != null) {
@@ -65,7 +62,7 @@ class _ExpenseFormState extends State<ExpenseForm> {
     final DateTime? pickedDate = await showDatePicker(
       context: context,
       initialDate: _selectedDate ?? DateTime.now(),
-      firstDate: DateTime.now().subtract(Duration(days: 365)),
+      firstDate: DateTime.now().subtract(const Duration(days: 365)),
       lastDate: DateTime.now(),
     );
 
@@ -143,7 +140,7 @@ class _ExpenseFormState extends State<ExpenseForm> {
         ),
         body: SingleChildScrollView(
           child: Padding(
-            padding: EdgeInsets.all(16.0),
+            padding: const EdgeInsets.all(16.0),
             child: Form(
               key: _formKey,
               child: Column(
@@ -151,7 +148,7 @@ class _ExpenseFormState extends State<ExpenseForm> {
                 children: [
                   TextFormField(
                     controller: _titleController,
-                    decoration: InputDecoration(labelText: 'Título'),
+                    decoration: const InputDecoration(labelText: 'Título'),
                     validator: (value) {
                       if (value!.isEmpty) {
                         return 'Por favor, insira um título';
@@ -161,12 +158,12 @@ class _ExpenseFormState extends State<ExpenseForm> {
                   ),
                   TextFormField(
                     controller: _descriptionController,
-                    decoration: InputDecoration(labelText: 'Descrição'),
+                    decoration: const InputDecoration(labelText: 'Descrição'),
                   ),
                   TextFormField(
                     controller: _amountController,
                     keyboardType: TextInputType.number,
-                    decoration: InputDecoration(labelText: 'Valor'),
+                    decoration: const InputDecoration(labelText: 'Valor'),
                     validator: (value) {
                       if (value!.isEmpty) {
                         return 'Por favor, insira um valor';
@@ -177,21 +174,21 @@ class _ExpenseFormState extends State<ExpenseForm> {
                       return null;
                     },
                   ),
-                  SizedBox(height: 16.0),
+                  const SizedBox(height: 16.0),
                   GestureDetector(
                     onTap: _selectDate,
                     child: Row(
                       children: [
-                        Icon(Icons.calendar_today),
-                        SizedBox(width: 8.0),
+                        const Icon(Icons.calendar_today),
+                        const SizedBox(width: 8.0),
                         Text(
                           'Data: ${_formatDate(_selectedDate)}',
-                          style: TextStyle(fontSize: 16.0),
+                          style: const TextStyle(fontSize: 16.0),
                         ),
                       ],
                     ),
                   ),
-                  SizedBox(height: 16.0),
+                  const SizedBox(height: 16.0),
                   DropdownButtonFormField<CategoryModel>(
                     value: _selectedCategory,
                     items: _categories.map((category) {
@@ -205,7 +202,7 @@ class _ExpenseFormState extends State<ExpenseForm> {
                         _selectedCategory = value;
                       });
                     },
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       labelText: 'Categoria',
                     ),
                     validator: (value) {
@@ -215,10 +212,10 @@ class _ExpenseFormState extends State<ExpenseForm> {
                       return null;
                     },
                   ),
-                  SizedBox(height: 16.0),
+                  const SizedBox(height: 16.0),
                   ElevatedButton(
                     onPressed: _submitForm,
-                    child: Text('Salvar'),
+                    child: const Text('Salvar'),
                   ),
                 ],
               ),

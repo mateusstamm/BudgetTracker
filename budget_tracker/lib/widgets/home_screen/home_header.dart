@@ -12,8 +12,8 @@ class HomeHeader extends StatelessWidget {
           height: 200,
           child: HomeCarousel(),
         ),
-        SizedBox(height: 16),
-        Align(
+        const SizedBox(height: 16),
+        const Align(
           alignment: Alignment.center,
           child: Text(
             'BUDGET TRACKER',

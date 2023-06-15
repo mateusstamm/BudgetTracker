@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 class CustomTheme {
   static ThemeData get themeData {
     // Cores primárias
-    final primaryColor = const Color.fromARGB(255, 46, 118, 49);
+    const primaryColor = const Color.fromARGB(255, 46, 118, 49);
     final primaryColorDark = Colors.green[700];
     final primaryColorLight = Colors.green[200];
 
     // Cores de acentuação
-    final accentColor = Colors.lightGreen;
+    const accentColor = Colors.lightGreen;
     final accentColorDark = Colors.lightGreen[700];
 
     return ThemeData(
@@ -18,7 +18,7 @@ class CustomTheme {
       primaryColorLight: primaryColorLight,
 
       // Borda arredondada
-      appBarTheme: AppBarTheme(
+      appBarTheme: const AppBarTheme(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(
             bottom: Radius.circular(10),
@@ -39,12 +39,12 @@ class CustomTheme {
 
   static ThemeData get darkThemeData {
     // Cores primárias no modo escuro
-    final darkPrimaryColor = const Color.fromARGB(255, 0, 158, 96);
+    const darkPrimaryColor = const Color.fromARGB(255, 0, 158, 96);
     final darkPrimaryColorDark = Colors.green[900];
     final darkPrimaryColorLight = Colors.green[300];
 
     // Cores de acentuação no modo escuro
-    final darkAccentColor = Colors.lightGreen;
+    const darkAccentColor = Colors.lightGreen;
     final darkAccentColorDark = Colors.lightGreen[700];
 
     return ThemeData(
@@ -54,7 +54,7 @@ class CustomTheme {
       primaryColorLight: darkPrimaryColorLight,
 
       // Borda arredondada no modo escuro
-      appBarTheme: AppBarTheme(
+      appBarTheme: const AppBarTheme(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(
             bottom: Radius.circular(10),

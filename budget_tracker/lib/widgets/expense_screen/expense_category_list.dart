@@ -45,7 +45,7 @@ class _ExpenseCategoryListState extends State<ExpenseCategoryList> {
       future: _categoriesFuture,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(child: CircularProgressIndicator());
+          return const Center(child: CircularProgressIndicator());
         } else if (snapshot.hasError) {
           return Center(child: Text('Error: ${snapshot.error}'));
         } else if (snapshot.hasData) {
@@ -63,7 +63,7 @@ class _ExpenseCategoryListState extends State<ExpenseCategoryList> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
+                    const Text(
                       'Categorias',
                       style: TextStyle(
                         fontSize: 18.0,
@@ -75,7 +75,7 @@ class _ExpenseCategoryListState extends State<ExpenseCategoryList> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => ExpenseListScreen(),
+                            builder: (context) => const ExpenseListScreen(),
                           ),
                         );
                       },
@@ -84,11 +84,11 @@ class _ExpenseCategoryListState extends State<ExpenseCategoryList> {
                           color: Colors.lightBlue[100],
                           borderRadius: BorderRadius.circular(8.0),
                         ),
-                        padding: EdgeInsets.symmetric(
+                        padding: const EdgeInsets.symmetric(
                           horizontal: 12.0,
                           vertical: 6.0,
                         ),
-                        child: Text(
+                        child: const Text(
                           'Ver despesas',
                           style: TextStyle(
                             fontSize: 16.0,
@@ -100,7 +100,7 @@ class _ExpenseCategoryListState extends State<ExpenseCategoryList> {
                     ),
                   ],
                 ),
-                SizedBox(height: 12.0),
+                const SizedBox(height: 12.0),
                 Expanded(
                   child: ListView.builder(
                     itemCount: categories.length,
@@ -108,11 +108,11 @@ class _ExpenseCategoryListState extends State<ExpenseCategoryList> {
                       final category = categories[index];
                       return Container(
                         decoration: BoxDecoration(
-                          color: Color.fromARGB(61, 189, 189, 189),
+                          color: const Color.fromARGB(61, 189, 189, 189),
                           borderRadius: BorderRadius.circular(8.0),
                         ),
-                        margin: EdgeInsets.symmetric(vertical: 4.0),
-                        padding: EdgeInsets.all(2.0),
+                        margin: const EdgeInsets.symmetric(vertical: 4.0),
+                        padding: const EdgeInsets.all(2.0),
                         child: ListTile(
                           leading: Icon(category.icon),
                           title: Text(category.title),
@@ -129,7 +129,7 @@ class _ExpenseCategoryListState extends State<ExpenseCategoryList> {
             ),
           );
         } else {
-          return Center(child: Text('No categories found'));
+          return const Center(child: Text('No categories found'));
         }
       },
     );

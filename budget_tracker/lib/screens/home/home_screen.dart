@@ -13,7 +13,7 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           'Página Inicial',
           style: TextStyle(
             fontSize: 25,
@@ -22,8 +22,8 @@ class HomeScreen extends StatelessWidget {
         ),
         centerTitle: true,
       ),
-      drawer: DrawerDefault(),
-      body: Padding(
+      drawer: const DrawerDefault(),
+      body: const Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [

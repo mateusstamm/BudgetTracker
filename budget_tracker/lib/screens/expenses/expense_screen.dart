@@ -40,7 +40,7 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           'Despesas',
           style: TextStyle(
             fontSize: 25,
@@ -49,12 +49,12 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
         ),
         centerTitle: true,
       ),
-      drawer: DrawerDefault(),
+      drawer: const DrawerDefault(),
       body: FutureBuilder<List<CategoryModel>>(
         future: _categoriesFuture,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator());
           } else if (snapshot.hasError) {
             return Center(child: Text('Error: ${snapshot.error}'));
           } else if (snapshot.hasData) {
@@ -74,7 +74,7 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
                   flex: 2,
                   child: Container(
                     padding: const EdgeInsets.all(8.0),
-                    child: ExpenseChart(),
+                    child: const ExpenseChart(),
                   ),
                 ),
                 Expanded(

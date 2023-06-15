@@ -13,15 +13,15 @@ class LoginHeaderWidget extends StatelessWidget {
             width: 250,
             height: 250,
           ),
-          Text(
+          const Text(
             'BudgetTracker',
             style: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.bold,
             ),
           ),
-          SizedBox(height: 16.0),
-          Text(
+          const SizedBox(height: 16.0),
+          const Text(
             'Tela de Login',
             style: TextStyle(
               fontSize: 20,

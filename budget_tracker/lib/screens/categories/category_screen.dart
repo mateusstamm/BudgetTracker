@@ -150,7 +150,7 @@ class _CategoryListState extends State<CategoryList> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           'Lista de Categorias',
           style: TextStyle(
             fontSize: 25,

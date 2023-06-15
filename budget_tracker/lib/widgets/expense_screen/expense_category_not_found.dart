@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import '../../screens/categories/category_screen.dart';
 
 class ExpenseCategoryNotFound extends StatelessWidget {
   final VoidCallback onCreateCategory;
@@ -12,14 +11,14 @@ class ExpenseCategoryNotFound extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text(
+          const Text(
             'Não existem categorias.\n\nQue tal criar uma?',
             textAlign: TextAlign.center,
             style: TextStyle(fontSize: 18.0),
           ),
           ElevatedButton(
             onPressed: onCreateCategory,
-            child: Text('Criar Agora!'),
+            child: const Text('Criar Agora!'),
           ),
         ],
       ),
