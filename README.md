@@ -24,6 +24,7 @@ O BudgetTracker utiliza as seguintes tecnologias:
 - Substitua o IP 10.0.2.2 (utilizado em testes) pelo IP da máquina hospedeira Docker, dentro dos projetos;
 - Na raíz dê o comando "docker-compose up -d --build" para realizar o build da aplicação;
 - Comunicação padrão do banco de dados ocorre na porta 3306 e API na porta 80;
+- *Para encerrar a parte servidora, utilize "docker compose down";
 - *Há a opção de utilizar o AndroidStudio como appClient, se for seu caso, mantenha o IP padrão de comunicação;
 
 # Contribuidores
