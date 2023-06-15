@@ -1,3 +1,5 @@
+![Descrição da imagem](budget_tracker/assets/img/budget_tracker_trans.png)
+
 # BudgetTracker
  O BudgetTracker é um aplicativo que facilitar a gestão de gastos. É indicado para pessoas que desejam ter um controle mais efetivo de suas finanças pessoais. O aplicativo foi feito especialmente para indivíduos que possuem dificuldade em gerenciar seus gastos e que buscam uma solução fácil e rápida para controlar suas despesas.
 
