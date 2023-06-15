@@ -51,8 +51,7 @@ class DrawerDefault extends StatelessWidget {
             : ThemeMode.light;
 
     return Drawer(
-      child: ListView(
-        padding: EdgeInsets.zero,
+      child: Column(
         children: [
           DrawerHeader(
             decoration: BoxDecoration(
@@ -72,30 +71,48 @@ class DrawerDefault extends StatelessWidget {
               ),
             ),
           ),
-          _buildDrawerItem(
-            context,
-            'Página Inicial',
-            HomeScreen.name,
+          Expanded(
+            child: ListView(
+              padding: EdgeInsets.zero,
+              children: [
+                _buildDrawerItem(
+                  context,
+                  'Página Inicial',
+                  HomeScreen.name,
+                ),
+                _buildDrawerItem(
+                  context,
+                  'Despesas',
+                  ExpenseScreen.name,
+                ),
+                _buildDrawerItem(
+                  context,
+                  'Categorias',
+                  CategoryList.name,
+                ),
+                _buildDrawerItem(
+                  context,
+                  'Configurações',
+                  ConfigScreen.name,
+                ),
+                _buildDrawerItem(
+                  context,
+                  'Sair',
+                  LoginScreen.name,
+                ),
+              ],
+            ),
           ),
-          _buildDrawerItem(
-            context,
-            'Despesas',
-            ExpenseScreen.name,
-          ),
-          _buildDrawerItem(
-            context,
-            'Categorias',
-            CategoryList.name,
-          ),
-          _buildDrawerItem(
-            context,
-            'Configurações',
-            ConfigScreen.name,
-          ),
-          _buildDrawerItem(
-            context,
-            'Sair',
-            LoginScreen.name,
+          Container(
+            margin: const EdgeInsets.only(bottom: 16),
+            child: const Center(
+              child: Text(
+                'Mateus Stamm - UTFPR/MD - TDS/2023',
+                style: TextStyle(
+                  color: Colors.grey,
+                ),
+              ),
+            ),
           ),
         ],
       ),
