@@ -7,7 +7,7 @@ import '../../widgets/general/drawer_default.dart';
 
 class CategoryList extends StatefulWidget {
   const CategoryList({Key? key}) : super(key: key);
-  static const name = '/category_list'; // for routes
+  static const name = '/category_list';
 
   @override
   _CategoryListState createState() => _CategoryListState();
@@ -31,7 +31,7 @@ class _CategoryListState extends State<CategoryList> {
         _categories = categories;
       });
     } catch (error) {
-      print('Failed to fetch categories: $error');
+      //print('Failed to fetch categories: $error');
     }
   }
 
@@ -42,7 +42,7 @@ class _CategoryListState extends State<CategoryList> {
         _categories.add(newCategory);
       });
     } catch (error) {
-      print('Failed to add category: $error');
+      //print('Failed to add category: $error');
     }
   }
 
@@ -56,7 +56,7 @@ class _CategoryListState extends State<CategoryList> {
         _categories[index] = updatedCategory;
       });
     } catch (error) {
-      print('Failed to update category: $error');
+      //print('Failed to update category: $error');
     }
   }
 
@@ -93,7 +93,7 @@ class _CategoryListState extends State<CategoryList> {
         _categories.remove(category);
       });
     } catch (error) {
-      print('Failed to delete category: $error');
+      //print('Failed to delete category: $error');
     }
   }
 
@@ -109,7 +109,7 @@ class _CategoryListState extends State<CategoryList> {
           onSave: (editedCategory) async {
             await updateCategory(category, editedCategory);
             Navigator.pop(context);
-            fetchCategories(); // Atualiza a lista após salvar as alterações
+            fetchCategories();
           },
           onCancel: () {
             Navigator.pop(context);
@@ -127,7 +127,7 @@ class _CategoryListState extends State<CategoryList> {
           onSave: (newCategory) async {
             await addCategory(newCategory);
             Navigator.pop(context);
-            fetchCategories(); // Atualiza a lista após adicionar uma nova categoria
+            fetchCategories();
           },
           onCancel: () {
             Navigator.pop(context);

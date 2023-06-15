@@ -4,7 +4,7 @@ import '../../widgets/register_screen/register_form.dart';
 
 class RegisterScreen extends StatelessWidget {
   const RegisterScreen({super.key});
-  static const name = '/register_screen'; // for routes
+  static const name = '/register_screen';
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +17,7 @@ class RegisterScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Center(
+            const Center(
               child: Text(
                 'FAÇA SEU REGISTRO!',
                 style: TextStyle(

@@ -17,11 +17,9 @@ class ExpenseDataSource {
             .toList();
         return expenses;
       } else {
-        print('Failed to fetch expenses. Status code: ${response.statusCode}');
         throw 'Failed to fetch expenses. Status code: ${response.statusCode}';
       }
     } catch (error) {
-      print('Failed to fetch expenses: $error');
       throw 'Failed to fetch expenses: $error';
     }
   }
@@ -38,12 +36,10 @@ class ExpenseDataSource {
             .toList();
         return categories;
       } else {
-        print(
-            'Failed to fetch categories. Status code: ${response.statusCode}');
+        //print(
         throw 'Failed to fetch categories. Status code: ${response.statusCode}';
       }
     } catch (error) {
-      print('Failed to fetch categories: $error');
       throw 'Failed to fetch categories: $error';
     }
   }
@@ -63,11 +59,9 @@ class ExpenseDataSource {
         final newExpense = ExpenseModel.fromJson(responseBody);
         return newExpense;
       } else {
-        print('Failed to add expense. Status code: ${response.statusCode}');
         throw 'Failed to add expense. Status code: ${response.statusCode}';
       }
     } catch (error) {
-      print('Failed to add expense: $error');
       throw 'Failed to add expense: $error';
     }
   }
@@ -88,11 +82,9 @@ class ExpenseDataSource {
             ExpenseModel.fromJson(json.decode(response.body));
         return updatedExpense;
       } else {
-        print('Failed to update expense. Status code: ${response.statusCode}');
         throw 'Failed to update expense. Status code: ${response.statusCode}';
       }
     } catch (error) {
-      print('Failed to update expense: $error');
       throw 'Failed to update expense: $error';
     }
   }
@@ -106,11 +98,9 @@ class ExpenseDataSource {
         final List<dynamic> responseBody = json.decode(response.body);
         return responseBody.isNotEmpty;
       } else {
-        print('Failed to fetch expenses. Status code: ${response.statusCode}');
         throw 'Failed to fetch expenses. Status code: ${response.statusCode}';
       }
     } catch (error) {
-      print('Failed to fetch expenses: $error');
       throw 'Failed to fetch expenses: $error';
     }
   }
@@ -122,11 +112,9 @@ class ExpenseDataSource {
       );
 
       if (response.statusCode != 200) {
-        print('Failed to delete expense. Status code: ${response.statusCode}');
         throw 'Failed to delete expense. Status code: ${response.statusCode}';
       }
     } catch (error) {
-      print('Failed to delete expense: $error');
       throw 'Failed to delete expense: $error';
     }
   }

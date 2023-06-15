@@ -6,7 +6,7 @@ import '../../widgets/login_screen/login_form.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
-  static const name = '/login_screen'; // for routes
+  static const name = '/login_screen';
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +19,7 @@ class LoginScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            LoginHeaderWidget(),
+            const LoginHeaderWidget(),
             LoginForm(
               onLoginSuccess: () {
                 Navigator.pushNamed(context, HomeScreen.name);

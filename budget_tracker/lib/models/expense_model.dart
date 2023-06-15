@@ -24,7 +24,7 @@ class ExpenseModel {
       'description': description,
       'amount': amount!.toDouble(),
       'date': date.toIso8601String(),
-      'category': category?.toJson(), // Serializar o objeto da categoria
+      'category': category?.toJson(),
     };
   }
 
@@ -35,8 +35,8 @@ class ExpenseModel {
       description: json['description'],
       amount: json['amount'].toDouble(),
       date: DateTime.parse(json['date']),
-      category: CategoryModel.fromJson(json['category']
-          as Map<String, dynamic>), // Desserializar o objeto da categoria
+      category:
+          CategoryModel.fromJson(json['category'] as Map<String, dynamic>),
     );
   }
 }

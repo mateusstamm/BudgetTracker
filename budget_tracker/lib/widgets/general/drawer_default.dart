@@ -10,10 +10,8 @@ class DrawerDefault extends StatelessWidget {
   const DrawerDefault({Key? key}) : super(key: key);
 
   String _getCurrentRoute(BuildContext context) {
-    final ModalRoute<dynamic>? modalRoute =
-        ModalRoute.of(context); // Obtém a rota atual
-    return modalRoute?.settings.name ??
-        ''; // Retorna o nome da rota atual ou uma string vazia se não houver nenhuma rota definida
+    final ModalRoute<dynamic>? modalRoute = ModalRoute.of(context);
+    return modalRoute?.settings.name ?? '';
   }
 
   Widget _buildDrawerItem(
@@ -62,7 +60,7 @@ class DrawerDefault extends StatelessWidget {
                   ? Colors.grey[900]
                   : const Color.fromARGB(255, 46, 118, 49),
             ),
-            child: Align(
+            child: const Align(
               alignment: Alignment.center,
               child: Text(
                 '••• MENU •••',

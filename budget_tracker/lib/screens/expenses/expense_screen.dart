@@ -10,7 +10,7 @@ import '../../screens/categories/category_screen.dart';
 
 class ExpenseScreen extends StatefulWidget {
   const ExpenseScreen({Key? key}) : super(key: key);
-  static const String name = '/expense_screen'; // for routes
+  static const String name = '/expense_screen';
 
   @override
   _ExpenseScreenState createState() => _ExpenseScreenState();
@@ -30,7 +30,7 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
       final expenseDataSource = ExpenseDataSource();
       return await expenseDataSource.getAllCategories();
     } catch (error) {
-      print('Failed to fetch categories: $error');
+      //print('Failed to fetch categories: $error');
       throw 'Failed to fetch categories: $error';
     }
   }
