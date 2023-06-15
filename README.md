@@ -1,7 +1,5 @@
 # BudgetTracker
-
-
-
+ O BudgetTracker é um aplicativo que facilitar a gestão de gastos. É indicado para pessoas que desejam ter um controle mais efetivo de suas finanças pessoais. O aplicativo foi feito especialmente para indivíduos que possuem dificuldade em gerenciar seus gastos e que buscam uma solução fácil e rápida para controlar suas despesas.
 
 # Funcionalidades Principais
 - Autenticação: Registro e Login: Os usuários podem se cadastrar no aplicativo fornecendo um endereço de e-mail e uma senha segura. 
@@ -16,7 +14,7 @@ O BudgetTracker utiliza as seguintes tecnologias:
 - Dart: A linguagem de programação utilizada pelo Flutter para escrever a lógica do aplicativo.
 - Docker: Uma plataforma de virtualização que permite empacotar e distribuir aplicativos com todas as suas dependências em um contêiner. 
 - C# WebAPI: O BudgetTracker utiliza uma API web desenvolvida em C#, uma linguagem de programação poderosa e versátil.
-- 
+- MySQL: Um sistema de gerenciamento de banco de dados relacional que armazena e gerencia os dados do aplicativo
 
 # Funcionamento
 
@@ -24,3 +22,7 @@ O BudgetTracker utiliza as seguintes tecnologias:
 - Substitua o IP 10.0.2.2 (utilizado em testes) pelo IP da máquina hospedeira Docker, dentro dos projetos;
 - Na raíz dê o comando "docker-compose up -d --build" para realizar o build da aplicação;
 - Comunicação padrão do banco de dados ocorre na porta 3306 e API na porta 80;
+- *Há a opção de utilizar o AndroidStudio como appClient, se for seu caso, mantenha o IP padrão de comunicação;
+
+# Contribuidores
+Mateus Stamm - UTFPR, Medianeira 2023.
