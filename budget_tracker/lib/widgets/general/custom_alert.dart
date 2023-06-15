@@ -17,7 +17,7 @@ class CustomAlert extends StatelessWidget {
           onPressed: () {
             Navigator.pop(context);
           },
-          child: Text('OK'),
+          child: const Text('OK'),
         ),
       ],
     );

@@ -56,7 +56,7 @@ class _ExpenseCategoryListState extends State<ExpenseCategoryList> {
               color: Theme.of(context).hoverColor,
               borderRadius: BorderRadius.circular(10.0),
             ),
-            padding: EdgeInsets.all(12.0),
+            padding: const EdgeInsets.all(12.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [

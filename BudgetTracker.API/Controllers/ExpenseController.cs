@@ -129,9 +129,17 @@ namespace BudgetTracker.API.Controllers
                 return BadRequest("Categoria inválida.");
             }
 
+            
             // Atualizar o totalAmount da categoria
-            category.TotalAmount -= expense.Amount; // Subtrair o valor anterior da despesa
+            expenseDTO.Category.TotalAmount -= expense.Amount; // Subtrair o valor antigo da categoria antiga
             category.TotalAmount += expenseDTO.Amount; // Adicionar o novo valor da despesa
+
+            expenseDTO.Category.TotalAmount += expenseDTO.Amount;
+            
+
+            // Atualizar Entries da categoria            
+            UpdateCategoryEntries(expense.CategoryID, -1); // Remove uma Entrie da categoria antiga
+            UpdateCategoryEntries(expenseDTO.Category.CategoryID, 1); // Adiciona uma Entrie na categoria nova
 
             expense.Title = expenseDTO.Title;
             expense.Description = expenseDTO.Description;
@@ -211,6 +219,17 @@ namespace BudgetTracker.API.Controllers
             if (category != null)
             {
                 category.Entries += changeAmount;
+                _context.SaveChanges();
+            }
+        }
+
+        private void UpdateCategoryTotalAmount(int categoryId, int changeAmount)
+        {
+            var category = _context.Categories!.FirstOrDefault(c => c.CategoryID == categoryId);
+
+            if (category != null)
+            {
+                category.TotalAmount += changeAmount;
                 _context.SaveChanges();
             }
         }

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
-import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import '../../data/datasources/remote_api/category_data_source.dart';
 import '../../data/datasources/remote_api/expense_data_source.dart';
 import '../../models/category_model.dart';
@@ -29,9 +29,6 @@ class _ExpenseFormState extends State<ExpenseForm> {
   void initState() {
     super.initState();
     fetchCategories();
-    KeyboardVisibilityController().onChange.listen((bool visible) {
-      setState(() {});
-    });
 
     if (widget.expenseToEdit != null) {
       _initFormValues();
@@ -80,13 +77,17 @@ class _ExpenseFormState extends State<ExpenseForm> {
     return formattedDate;
   }
 
-  Future<void> _submitForm() async {
+  bool _validateAmount(String value) {
+    final RegExp amountRegExp = RegExp(r'^\d*\.?\d+$');
+    return amountRegExp.hasMatch(value);
+  }
+
+  void _submitForm() {
     if (_formKey.currentState!.validate()) {
       final String title = _titleController.text;
       final String description = _descriptionController.text;
-      final double amount = _amountController.text.isNotEmpty
-          ? double.parse(_amountController.text)
-          : 0.0;
+      final String amountText = _amountController.text;
+      final double amount = double.parse(amountText);
 
       final CategoryModel selectedCategory = _selectedCategory!;
 
@@ -94,17 +95,39 @@ class _ExpenseFormState extends State<ExpenseForm> {
         expenseID: widget.expenseToEdit?.expenseID ?? 0,
         title: title,
         description: description,
-        amount: amount.toDouble(),
+        amount: amount,
         date: _selectedDate!,
         category: selectedCategory,
       );
 
       try {
         if (widget.expenseToEdit != null) {
-          await ExpenseDataSource()
-              .updateExpense(widget.expenseToEdit!, expense);
+          final ExpenseModel expenseToEdit = widget.expenseToEdit!;
+
+          if (expenseToEdit.category!.categoryID ==
+              selectedCategory.categoryID) {
+            // Categoria não foi alterada, fazer apenas o PUT
+            ExpenseDataSource().updateExpense(expenseToEdit, expense);
+          } else {
+            // Categoria foi alterada, fazer o PUT e o UPDATE para a categoria antiga
+            //CategoryDataSource()
+            //    .updateCategory(expenseToEdit.category!, expense.category!);
+            ExpenseDataSource().updateExpense(expenseToEdit, expense);
+
+            final CategoryModel oldCategory = expenseToEdit.category!;
+            final CategoryModel updatedCategory = CategoryModel(
+              categoryID: oldCategory.categoryID,
+              categoryName: oldCategory.categoryName,
+              categoryDescription: oldCategory.categoryDescription,
+              totalAmount: oldCategory.totalAmount! - expenseToEdit.amount!,
+              entries: oldCategory.entries! - 1,
+              icon: oldCategory.icon,
+            );
+
+            CategoryDataSource().updateCategory(oldCategory, updatedCategory);
+          }
         } else {
-          await ExpenseDataSource().addExpense(expense);
+          ExpenseDataSource().addExpense(expense);
         }
 
         Navigator.pushReplacement(
@@ -163,12 +186,15 @@ class _ExpenseFormState extends State<ExpenseForm> {
                   TextFormField(
                     controller: _amountController,
                     keyboardType: TextInputType.number,
+                    inputFormatters: [
+                      FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d+$')),
+                    ],
                     decoration: const InputDecoration(labelText: 'Valor'),
                     validator: (value) {
                       if (value!.isEmpty) {
                         return 'Por favor, insira um valor';
                       }
-                      if (double.tryParse(value) == null) {
+                      if (!_validateAmount(value)) {
                         return 'Por favor, insira um valor válido';
                       }
                       return null;

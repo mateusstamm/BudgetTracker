@@ -11,7 +11,7 @@ class ConfigScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           'Configurações',
           style: TextStyle(
             fontSize: 25,
@@ -20,12 +20,12 @@ class ConfigScreen extends StatelessWidget {
         ),
         centerTitle: true,
       ),
-      drawer: DrawerDefault(),
+      drawer: const DrawerDefault(),
       body: Consumer<ThemeModel>(
         builder: (context, themeModel, _) => ListView(
           children: [
             ListTile(
-              title: Text('Modo Escuro'),
+              title: const Text('Modo Escuro'),
               trailing: Switch(
                 value: themeModel.darkModeEnabled,
                 onChanged: (value) {

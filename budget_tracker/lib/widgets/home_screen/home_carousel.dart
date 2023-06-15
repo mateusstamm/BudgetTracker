@@ -32,12 +32,12 @@ class _HomeCarouselState extends State<HomeCarousel> {
   }
 
   void _startTimer() {
-    _timer = Timer.periodic(Duration(seconds: 3), (_) {
+    _timer = Timer.periodic(const Duration(seconds: 3), (_) {
       setState(() {
         _currentIndex = (_currentIndex + 1) % imageList.length;
         _pageController.animateToPage(
           _currentIndex,
-          duration: Duration(milliseconds: 500),
+          duration: const Duration(milliseconds: 500),
           curve: Curves.easeInOut,
         );
       });
@@ -69,7 +69,7 @@ class _HomeCarouselState extends State<HomeCarousel> {
             controller: _pageController,
           ),
         ),
-        SizedBox(height: 8.0),
+        const SizedBox(height: 8.0),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: _buildIndicators(),
@@ -84,7 +84,7 @@ class _HomeCarouselState extends State<HomeCarousel> {
       return Container(
         width: 8.0,
         height: 8.0,
-        margin: EdgeInsets.symmetric(horizontal: 4.0),
+        margin: const EdgeInsets.symmetric(horizontal: 4.0),
         decoration: BoxDecoration(
           shape: BoxShape.circle,
           color: _currentIndex == index ? Colors.blue : Colors.grey,

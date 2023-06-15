@@ -95,4 +95,27 @@ class CategoryDataSource {
       throw 'Failed to delete category: $error';
     }
   }
+
+  Future<CategoryModel> updateOldCategory(
+      CategoryModel oldCategory, CategoryModel newCategory) async {
+    try {
+      final response = await http.put(
+        Uri.parse('$_baseUrl/${oldCategory.categoryID}'),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: json.encode(newCategory.toJson()),
+      );
+
+      if (response.statusCode == 200) {
+        final updatedCategory =
+            CategoryModel.fromJson(json.decode(response.body));
+        return updatedCategory;
+      } else {
+        throw 'Failed to update category. Status code: ${response.statusCode}';
+      }
+    } catch (error) {
+      throw 'Failed to update category: $error';
+    }
+  }
 }

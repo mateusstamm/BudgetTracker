@@ -27,7 +27,7 @@ class _ExpenseListItemState extends State<ExpenseListItem> {
         expenses = fetchedExpenses;
       });
     } catch (error) {
-      print('Failed to fetch expenses: $error');
+      //print('Failed to fetch expenses: $error');
     }
   }
 
@@ -42,9 +42,9 @@ class _ExpenseListItemState extends State<ExpenseListItem> {
           direction: DismissDirection.endToStart,
           background: Container(
             alignment: Alignment.centerRight,
-            padding: EdgeInsets.only(right: 16.0),
+            padding: const EdgeInsets.only(right: 16.0),
             color: Colors.red,
-            child: Icon(
+            child: const Icon(
               Icons.delete,
               color: Colors.white,
             ),
@@ -68,8 +68,8 @@ class _ExpenseListItemState extends State<ExpenseListItem> {
                       child: const Text('Sim'),
                       onPressed: () async {
                         await deleteExpense(expense);
-                        const Navigator.pop(context, true);
-                        const Navigator.pushReplacement(
+                        Navigator.pop(context, true);
+                        Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
                             builder: (context) => ExpenseScreen(),
@@ -87,9 +87,9 @@ class _ExpenseListItemState extends State<ExpenseListItem> {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10.0),
             ),
-            margin: EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),
+            margin: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),
             child: Padding(
-              padding: EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(8.0),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
@@ -102,7 +102,7 @@ class _ExpenseListItemState extends State<ExpenseListItem> {
                       ),
                     ),
                     child: IconButton(
-                      icon: Icon(Icons.edit),
+                      icon: const Icon(Icons.edit),
                       onPressed: () {
                         Navigator.push(
                           context,
@@ -138,7 +138,7 @@ class _ExpenseListItemState extends State<ExpenseListItem> {
                         const SizedBox(height: 4.0),
                         Text(
                           'Categoria: ${expense.category!.categoryName}', // Exibir categoria
-                          style: TextStyle(fontSize: 14.0),
+                          style: const TextStyle(fontSize: 14.0),
                         ),
                       ],
                     ),
@@ -148,12 +148,12 @@ class _ExpenseListItemState extends State<ExpenseListItem> {
                     children: [
                       Text(
                         '${_formatDate(expense.date)}',
-                        style: TextStyle(fontSize: 16.0),
+                        style: const TextStyle(fontSize: 16.0),
                       ),
-                      SizedBox(height: 4.0),
+                      const SizedBox(height: 4.0),
                       Text(
                         'R\$${expense.amount!.toStringAsFixed(2)}',
-                        style: TextStyle(fontSize: 16.0),
+                        style: const TextStyle(fontSize: 16.0),
                       ),
                     ],
                   ),
@@ -183,9 +183,9 @@ class _ExpenseListItemState extends State<ExpenseListItem> {
       setState(() {
         expenses.remove(expense);
       });
-      print('Expense deleted successfully.');
+      //print('Expense deleted successfully.');
     } catch (error) {
-      print('Failed to delete expense: $error');
+      //print('Failed to delete expense: $error');
     }
   }
 }
