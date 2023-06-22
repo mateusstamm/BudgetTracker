@@ -10,8 +10,8 @@ class LoginHeaderWidget extends StatelessWidget {
         children: [
           Image.asset(
             'assets/img/budget_tracker_trans.png',
-            width: 10,
-            height: 10,
+            width: 250,
+            height: 250,
           ),
           const Text(
             'BudgetTracker',
