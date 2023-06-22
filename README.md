@@ -32,6 +32,16 @@ docker-compose up -d --build
 - Clone o repositório em sua máquina;
 - Substitua o IP 10.0.2.2 (utilizado em testes pelo AndroidStudio) pelo IP da máquina hospedeira Docker;
 - \*Há a opção de utilizar o AndroidStudio como appClient, se for seu caso, mantenha o IP padrão de comunicação;
+- Navegue até o diretório do aplicativo Flutter dentro do projeto clonado:
+```bash
+cd aplicativo-flutter
+```
+Antes de executar o aplicativo Flutter, certifique-se de ter configurado corretamente o ambiente Flutter em seu sistema.
+```bash
+flutter run
+```
 
+Execute o seguinte comando para iniciar o aplicativo:
+- 
 # Contribuidores
 Mateus Stamm - UTFPR, Medianeira 2023.
