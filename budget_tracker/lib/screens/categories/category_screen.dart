@@ -100,20 +100,28 @@ class _CategoryListState extends State<CategoryList> {
   void _openEditForm(CategoryModel category) {
     showModalBottomSheet(
       context: context,
+      isScrollControlled: true,
       builder: (context) {
-        return CategoryForm(
-          category: category,
-          icon: category.icon != null
-              ? IconData(category.icon!, fontFamily: 'MaterialIcons')
-              : null,
-          onSave: (editedCategory) async {
-            await updateCategory(category, editedCategory);
-            Navigator.pop(context);
-            fetchCategories();
-          },
-          onCancel: () {
-            Navigator.pop(context);
-          },
+        return SingleChildScrollView(
+          child: Container(
+            padding: EdgeInsets.only(
+              bottom: MediaQuery.of(context).viewInsets.bottom,
+            ),
+            child: CategoryForm(
+              category: category,
+              icon: category.icon != null
+                  ? IconData(category.icon!, fontFamily: 'MaterialIcons')
+                  : null,
+              onSave: (editedCategory) async {
+                await updateCategory(category, editedCategory);
+                Navigator.pop(context);
+                fetchCategories();
+              },
+              onCancel: () {
+                Navigator.pop(context);
+              },
+            ),
+          ),
         );
       },
     );
@@ -122,16 +130,24 @@ class _CategoryListState extends State<CategoryList> {
   void _openAddForm() {
     showModalBottomSheet(
       context: context,
+      isScrollControlled: true,
       builder: (context) {
-        return CategoryForm(
-          onSave: (newCategory) async {
-            await addCategory(newCategory);
-            Navigator.pop(context);
-            fetchCategories();
-          },
-          onCancel: () {
-            Navigator.pop(context);
-          },
+        return SingleChildScrollView(
+          child: Container(
+            padding: EdgeInsets.only(
+              bottom: MediaQuery.of(context).viewInsets.bottom,
+            ),
+            child: CategoryForm(
+              onSave: (newCategory) async {
+                await addCategory(newCategory);
+                Navigator.pop(context);
+                fetchCategories();
+              },
+              onCancel: () {
+                Navigator.pop(context);
+              },
+            ),
+          ),
         );
       },
     );

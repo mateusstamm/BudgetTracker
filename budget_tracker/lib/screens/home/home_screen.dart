@@ -5,7 +5,7 @@ import '../../widgets/home_screen/home_header.dart';
 import '../../widgets/home_screen/home_tips.dart';
 
 class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
+  const HomeScreen({Key? key});
 
   static const name = '/home_screen';
 
@@ -23,14 +23,16 @@ class HomeScreen extends StatelessWidget {
         centerTitle: true,
       ),
       drawer: const DrawerDefault(),
-      body: const Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            HomeHeader(),
-            HomeFeatures(),
-            HomeTips(),
-          ],
+      body: const SingleChildScrollView(
+        child: Padding(
+          padding: EdgeInsets.all(16.0),
+          child: Column(
+            children: [
+              HomeHeader(),
+              HomeFeatures(),
+              HomeTips(),
+            ],
+          ),
         ),
       ),
     );
