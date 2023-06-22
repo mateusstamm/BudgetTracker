@@ -36,7 +36,7 @@ docker-compose up -d --build
 ```bash
 cd aplicativo-flutter
 ```
-Antes de executar o aplicativo Flutter, certifique-se de ter configurado corretamente o ambiente Flutter em seu sistema.
+- Antes de executar o aplicativo Flutter, certifique-se de ter configurado corretamente o ambiente Flutter em seu sistema.
 ```bash
 flutter run
 ```
